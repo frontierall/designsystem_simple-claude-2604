@@ -471,10 +471,17 @@
           <div class="step-num">4</div>
           아래 영역에 붙여넣기 후 분석 시작
         </div>
-        <div class="step" style="margin-top:6px;color:var(--yellow);font-size:11px;gap:6px">
-          <span style="min-width:18px;text-align:center">⚠</span>
-          외부 <code>.css</code> 파일 색상은 미포함 — <code>&lt;style&gt;</code> 태그·인라인 스타일만 분석됩니다
-        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="font-size:10px;color:var(--text-2);margin-bottom:4px">페이지 URL (외부 CSS 자동 로드 — 선택)</div>
+        <input
+          id="pageUrl"
+          type="url"
+          placeholder="https://example.com"
+          style="width:100%;padding:6px 10px;background:var(--bg-0);border:1px solid var(--border);border-radius:5px;color:var(--text-0);font-size:11.5px;outline:none"
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='var(--border)'"
+        >
       </div>
     </div>
 
@@ -554,26 +561,25 @@ function switchTab(name) {
 }
 
 // ── Entry point ───────────────────────────────────────────────────────
-function runAnalysis() {
+async function runAnalysis() {
   const html = document.getElementById('input').value.trim();
+  const baseUrl = document.getElementById('pageUrl').value.trim();
   if (!html) { toast('HTML을 먼저 붙여넣어 주세요'); return; }
 
   document.getElementById('results').innerHTML = '<div class="loading"><div class="spinner"></div>분석 중...</div>';
 
-  // Defer so browser can paint the loading state
-  setTimeout(() => {
-    try {
-      D = extract(html);
-      updateCountBadges();
-      updateStatsBar();
-      switchTab('colors');
-      document.getElementById('exportBar').style.display = 'flex';
-      document.getElementById('statsBar').style.display = 'flex';
-      toast('분석 완료!');
-    } catch (err) {
-      document.getElementById('results').innerHTML = `<div class="empty"><p style="color:#f87171">오류: ${err.message}</p></div>`;
-    }
-  }, 50);
+  try {
+    D = await extract(html, baseUrl);
+    updateCountBadges();
+    updateStatsBar();
+    switchTab('colors');
+    document.getElementById('exportBar').style.display = 'flex';
+    document.getElementById('statsBar').style.display = 'flex';
+    const extra = D._fetchedSheets > 0 ? ` (외부 CSS ${D._fetchedSheets}개 로드)` : '';
+    toast('분석 완료!' + extra);
+  } catch (err) {
+    document.getElementById('results').innerHTML = `<div class="empty"><p style="color:#f87171">오류: ${err.message}</p></div>`;
+  }
 }
 
 // ── Single reusable canvas (avoids context limit per color) ───────────
@@ -582,7 +588,7 @@ _cc.width = _cc.height = 1;
 const _cx = _cc.getContext('2d');
 
 // ── Extractor ─────────────────────────────────────────────────────────
-function extract(html) {
+async function extract(html, baseUrl) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
 
   const d = {
@@ -606,12 +612,44 @@ function extract(html) {
   // Inline styles
   doc.querySelectorAll('[style]').forEach(el => parseCSS(el.getAttribute('style'), d, true));
 
+  // Script tags — scan for embedded CSS strings (e.g. Next.js RSC / SSR data)
+  doc.querySelectorAll('script').forEach(s => {
+    const text = s.textContent;
+    if (!text || text.length < 20) return;
+    // Only extract hex/rgb/hsl — named colors too noisy in JS strings
+    reAll(/(#[0-9a-fA-F]{3,8}(?![0-9a-fA-F])|rgba?\s*\([^)]+\)|hsla?\s*\([^)]+\)|oklch\s*\([^)]+\))/g, text, m => {
+      d.rawColors.push(m[1].trim());
+    });
+    reAll(/--([\w-]+)\s*:\s*([^;}\n"'\\]{1,120})/g, text, m => {
+      const val = m[2].trim();
+      if (val) d.cssVars[`--${m[1]}`] = val;
+    });
+  });
+
   // Class frequency
   doc.querySelectorAll('[class]').forEach(el => {
     el.classList.forEach(cls => {
       if (cls) d.classes[cls] = (d.classes[cls] || 0) + 1;
     });
   });
+
+  // Fetch external stylesheets
+  let fetchedSheets = 0;
+  const resolvedBase = baseUrl ? resolveBase(baseUrl) : null;
+  if (resolvedBase) {
+    const links = [...doc.querySelectorAll('link[rel~="stylesheet"][href]')];
+    const results = await Promise.allSettled(links.map(async link => {
+      const href = resolveHref(link.getAttribute('href'), resolvedBase);
+      if (!href) return;
+      const res = await fetch(href, { mode: 'cors' });
+      if (!res.ok) throw new Error('not ok');
+      const css = await res.text();
+      parseCSS(css, d);
+      fetchedSheets++;
+    }));
+    // Count only fulfilled
+    fetchedSheets = results.filter(r => r.status === 'fulfilled').length;
+  }
 
   // Post-process
   return {
@@ -627,7 +665,22 @@ function extract(html) {
     borders: [...new Set([...d.borders])].slice(0, 24),
     transitions: [...new Set([...d.transitions])].slice(0, 15),
     classes: d.classes,
+    _fetchedSheets: fetchedSheets,
   };
+}
+
+function resolveBase(url) {
+  try { return new URL(url); } catch { return null; }
+}
+
+function resolveHref(href, base) {
+  if (!href) return null;
+  try {
+    if (href.startsWith('//')) return base.protocol + href;
+    if (href.startsWith('/')) return base.origin + href;
+    if (href.startsWith('http')) return href;
+    return base.origin + '/' + href;
+  } catch { return null; }
 }
 
 function parseCSS(css, d, inline = false) {
@@ -797,6 +850,7 @@ function updateStatsBar() {
     [Object.keys(D.cssVars).length, 'CSS 변수'],
     [D.shadows.length, '그림자'],
     [Object.keys(D.classes).length, '클래스'],
+    ...(D._fetchedSheets > 0 ? [[D._fetchedSheets, '외부CSS']] : []),
   ];
   sb.innerHTML = items.map(([n, label]) =>
     `<div class="stat-item"><strong>${n}</strong><span>${label}</span></div>`
