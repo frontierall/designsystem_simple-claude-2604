@@ -18,6 +18,7 @@
       --accent-dim: rgba(107,142,255,.12);
       --green: #4ade80;
       --yellow: #fbbf24;
+      --red: #f87171;
       --r: 7px;
     }
 
@@ -76,7 +77,7 @@
       overflow: hidden;
     }
     .left-top {
-      padding: 14px 16px 10px;
+      padding: 14px 16px 12px;
       border-bottom: 1px solid var(--border);
       background: var(--bg-1);
     }
@@ -104,6 +105,41 @@
       border-radius: 3px; font-family: monospace;
       font-size: 10.5px; color: var(--accent);
     }
+
+    /* ── Bookmarklet ────────────────────────────────────────── */
+    .bookmarklet-wrap {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: var(--bg-3);
+      border: 1px dashed var(--border);
+      border-radius: var(--r);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .bookmarklet-icon { font-size: 14px; flex-shrink: 0; }
+    .bookmarklet-text { font-size: 10.5px; color: var(--text-2); flex: 1; line-height: 1.4; }
+    .bookmarklet-link {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(107,142,255,.3);
+      border-radius: 5px;
+      font-size: 11px; font-weight: 600;
+      cursor: grab; text-decoration: none;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .bookmarklet-link:active { cursor: grabbing; }
+
+    /* ── URL input ──────────────────────────────────────────── */
+    .url-wrap { margin-top: 10px; }
+    .url-label { font-size: 10px; color: var(--text-2); margin-bottom: 4px; }
+    .url-input {
+      width: 100%; padding: 6px 10px;
+      background: var(--bg-0); border: 1px solid var(--border);
+      border-radius: 5px; color: var(--text-0);
+      font-size: 11.5px; outline: none;
+    }
+    .url-input:focus { border-color: var(--accent); }
 
     textarea {
       flex: 1;
@@ -208,9 +244,7 @@
       align-items: center; justify-content: center;
       gap: 14px; color: var(--text-2); text-align: center;
     }
-    .empty-icon {
-      width: 56px; height: 56px; opacity: .25;
-    }
+    .empty-icon { width: 56px; height: 56px; opacity: .25; }
     .empty p { font-size: 14px; line-height: 1.6; }
     .empty p strong { color: var(--text-1); }
     .empty small { font-size: 12px; opacity: .7; }
@@ -230,6 +264,15 @@
     }
 
     /* ── Color Grid ─────────────────────────────────────────── */
+    .hue-group { margin-bottom: 20px; }
+    .hue-group-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-2);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .hue-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
     .color-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
@@ -251,9 +294,53 @@
       font-size: 10px; color: var(--text-1);
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-    .swatch-label small {
-      font-size: 9.5px; color: var(--text-2);
+    .swatch-label small { font-size: 9.5px; color: var(--text-2); }
+
+    /* ── Dark mode pair indicator ───────────────────────────── */
+    .dark-pair {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 4px;
     }
+    .dark-swatch {
+      width: 20px; height: 20px; border-radius: 4px;
+      border: 1px solid var(--border); flex-shrink: 0;
+    }
+    .dark-label { font-family: monospace; font-size: 10.5px; color: var(--text-1); }
+    .mode-tag {
+      font-size: 9px; padding: 1px 5px;
+      border-radius: 4px; font-weight: 600;
+    }
+    .mode-light { background: rgba(255,255,255,.1); color: #ddd; }
+    .mode-dark  { background: rgba(0,0,0,.4); color: #aaa; border: 1px solid #444; }
+
+    /* ── WCAG Contrast ──────────────────────────────────────── */
+    .contrast-pair {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px;
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); margin-bottom: 5px;
+    }
+    .contrast-preview {
+      width: 60px; height: 32px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .contrast-info { flex: 1; min-width: 0; }
+    .contrast-ratio {
+      font-size: 14px; font-weight: 700; color: var(--text-0);
+    }
+    .contrast-labels {
+      font-size: 10px; color: var(--text-2); font-family: monospace;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .wcag-badges { display: flex; gap: 4px; flex-shrink: 0; }
+    .wcag-badge {
+      font-size: 9.5px; font-weight: 700; padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .wcag-pass { background: rgba(74,222,128,.15); color: var(--green); }
+    .wcag-fail { background: rgba(248,113,113,.1); color: var(--red); }
 
     /* ── Font items ─────────────────────────────────────────── */
     .font-card {
@@ -262,6 +349,11 @@
     }
     .font-meta { font-size: 11px; color: var(--text-2); font-family: monospace; margin-bottom: 8px; }
     .font-sample { font-size: 26px; line-height: 1.2; color: var(--text-0); }
+    .gfont-badge {
+      display: inline-block; font-size: 9px; padding: 1px 5px;
+      background: rgba(107,142,255,.15); color: var(--accent);
+      border-radius: 4px; margin-left: 6px; font-weight: 600;
+    }
 
     /* ── Type scale ─────────────────────────────────────────── */
     .type-row {
@@ -293,14 +385,10 @@
       height: 14px; background: var(--accent);
       opacity: .65; border-radius: 3px; min-width: 4px;
     }
-    .spacing-px {
-      font-size: 10.5px; color: var(--text-2);
-    }
+    .spacing-px { font-size: 10.5px; color: var(--text-2); }
 
     /* ── Radius ─────────────────────────────────────────────── */
-    .radius-grid {
-      display: flex; flex-wrap: wrap; gap: 12px;
-    }
+    .radius-grid { display: flex; flex-wrap: wrap; gap: 12px; }
     .radius-item {
       display: flex; flex-direction: column;
       align-items: center; gap: 8px;
@@ -309,9 +397,7 @@
       width: 52px; height: 52px;
       background: var(--accent); opacity: .7;
     }
-    .radius-val {
-      font-family: monospace; font-size: 10px; color: var(--text-2);
-    }
+    .radius-val { font-family: monospace; font-size: 10px; color: var(--text-2); }
 
     /* ── CSS Variables table ────────────────────────────────── */
     .search {
@@ -329,11 +415,15 @@
     .var-table td { padding: 7px 10px; vertical-align: middle; }
     .var-table td:first-child {
       font-family: monospace; color: var(--accent);
-      width: 48%; word-break: break-all;
+      width: 45%; word-break: break-all;
     }
-    .var-table td:last-child {
+    .var-table td:nth-child(2) {
       font-family: monospace; color: var(--text-1);
       word-break: break-all;
+    }
+    .var-table td:last-child {
+      font-family: monospace; color: var(--text-2);
+      font-size: 10px; white-space: nowrap;
     }
     .dot {
       width: 13px; height: 13px; border-radius: 50%;
@@ -368,11 +458,14 @@
       background: var(--bg-3); border-radius: 4px;
       flex-shrink: 0;
     }
-    .border-val {
-      font-family: monospace; font-size: 10.5px; color: var(--text-1);
-    }
+    .border-val { font-family: monospace; font-size: 10.5px; color: var(--text-1); }
 
     /* ── Component list ─────────────────────────────────────── */
+    .cls-group-header {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: var(--text-2);
+      padding: 8px 0 4px; margin-top: 4px;
+    }
     .cls-row {
       display: flex; align-items: center;
       justify-content: space-between;
@@ -380,6 +473,10 @@
       background: var(--bg-1); border: 1px solid var(--border);
       border-radius: var(--r); margin-bottom: 4px;
       font-size: 12px; position: relative; overflow: hidden;
+    }
+    .cls-row.cls-child {
+      margin-left: 16px;
+      background: var(--bg-0);
     }
     .cls-bg {
       position: absolute; left: 0; top: 0; bottom: 0;
@@ -395,11 +492,12 @@
     /* ── Export bar ─────────────────────────────────────────── */
     .export-bar {
       display: none;
-      gap: 8px;
+      gap: 6px;
       padding: 10px 16px;
       border-top: 1px solid var(--border);
       background: var(--bg-1);
       flex-shrink: 0;
+      flex-wrap: wrap;
     }
 
     /* ── Toast ──────────────────────────────────────────────── */
@@ -442,7 +540,7 @@
 <header class="header">
   <div class="header-logo">D</div>
   <h1>Design System Extractor</h1>
-  <span class="header-badge">Plan C · DevTools HTML</span>
+  <span class="header-badge">v2 · 9 features</span>
   <div class="header-spacer"></div>
   <span class="header-hint">Ctrl + Enter 로 분석</span>
 </header>
@@ -461,33 +559,35 @@
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <code>F12</code> → Elements 탭 클릭
+          아래 북마클릿을 북마크바로 드래그
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <code>&lt;html&gt;</code> 우클릭 → <code>Copy outerHTML</code>
+          사이트에서 북마클릿 클릭 → HTML 복사됨
         </div>
         <div class="step">
           <div class="step-num">4</div>
           아래 영역에 붙여넣기 후 분석 시작
         </div>
       </div>
-      <div style="margin-top:10px">
-        <div style="font-size:10px;color:var(--text-2);margin-bottom:4px">페이지 URL (외부 CSS 자동 로드 — 선택)</div>
-        <input
-          id="pageUrl"
-          type="url"
-          placeholder="https://example.com"
-          style="width:100%;padding:6px 10px;background:var(--bg-0);border:1px solid var(--border);border-radius:5px;color:var(--text-0);font-size:11.5px;outline:none"
-          onfocus="this.style.borderColor='var(--accent)'"
-          onblur="this.style.borderColor='var(--border)'"
-        >
+
+      <!-- Bookmarklet -->
+      <div class="bookmarklet-wrap">
+        <span class="bookmarklet-icon">🔖</span>
+        <span class="bookmarklet-text">드래그하여 북마크바에 추가</span>
+        <a id="bookmarkletLink" class="bookmarklet-link" href="#" title="북마크바로 드래그하세요">📋 CSS 복사기</a>
+      </div>
+
+      <!-- Page URL -->
+      <div class="url-wrap">
+        <div class="url-label">페이지 URL (외부 CSS 자동 로드 — 선택)</div>
+        <input id="pageUrl" type="url" placeholder="https://example.com" class="url-input">
       </div>
     </div>
 
     <textarea
       id="input"
-      placeholder="<!-- HTML을 여기에 붙여넣으세요 -->&#10;&#10;DevTools > Elements > <html> 우클릭 > Copy outerHTML&#10;&#10;또는 Ctrl+A 로 전체 선택 후 복사"
+      placeholder="<!-- HTML을 여기에 붙여넣으세요 -->&#10;&#10;북마클릿으로 복사하거나:&#10;DevTools > Elements > <html> 우클릭 > Copy outerHTML"
       spellcheck="false"
     ></textarea>
 
@@ -499,12 +599,11 @@
 
   <!-- Right: Results -->
   <div class="right">
-    <!-- Stats -->
     <div class="stats-bar" id="statsBar"></div>
 
-    <!-- Tabs -->
     <div class="tabs" id="tabs">
       <div class="tab active" data-tab="colors">색상 <span class="cnt" id="cnt-colors">0</span></div>
+      <div class="tab" data-tab="contrast">대비 <span class="cnt" id="cnt-contrast">0</span></div>
       <div class="tab" data-tab="typography">타이포그래피</div>
       <div class="tab" data-tab="spacing">간격</div>
       <div class="tab" data-tab="variables">CSS 변수 <span class="cnt" id="cnt-vars">0</span></div>
@@ -512,7 +611,6 @@
       <div class="tab" data-tab="components">컴포넌트 <span class="cnt" id="cnt-cls">0</span></div>
     </div>
 
-    <!-- Results content -->
     <div class="results" id="results">
       <div class="empty">
         <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -522,14 +620,15 @@
           <path d="M17.5 19h3M19 17.5v3" stroke="var(--accent)"/>
         </svg>
         <p><strong>HTML을 붙여넣고</strong><br>분석 시작을 클릭하세요</p>
-        <small>색상 · 폰트 · 간격 · CSS 변수를 자동 추출합니다</small>
+        <small>색상 · 폰트 · 간격 · WCAG 대비 · 다크모드 페어 자동 추출</small>
       </div>
     </div>
 
-    <!-- Export -->
     <div class="export-bar" id="exportBar">
-      <button class="btn btn-ghost" onclick="exportCSS()">CSS 내보내기</button>
+      <button class="btn btn-ghost" onclick="exportCSS()">CSS</button>
       <button class="btn btn-ghost" onclick="exportJSON()">JSON 토큰</button>
+      <button class="btn btn-ghost" onclick="exportFigma()">Figma 변수</button>
+      <button class="btn btn-ghost" onclick="exportTailwind()">Tailwind</button>
       <button class="btn btn-ghost" onclick="copyAll()">전체 복사</button>
     </div>
   </div>
@@ -541,8 +640,28 @@
 'use strict';
 
 // ── State ─────────────────────────────────────────────────────────────
-let D = null; // analysis result
+let D = null;
 let currentTab = 'colors';
+
+// ── Bookmarklet generation ─────────────────────────────────────────────
+(function() {
+  const code = `(async function(){
+var h=document.documentElement.cloneNode(true);
+var ss=document.styleSheets;
+for(var i=0;i<ss.length;i++){
+  var s=ss[i];if(!s.href)continue;
+  try{
+    var rules=[].slice.call(s.cssRules).map(function(r){return r.cssText}).join('\\n');
+    var st=document.createElement('style');st.textContent=rules;
+    var lk=h.querySelector('link[href="'+s.href.replace(/"/g,'\\"')+'"]');
+    if(lk)lk.replaceWith(st);else h.querySelector('head').appendChild(st);
+  }catch(e){}
+}
+await navigator.clipboard.writeText(h.outerHTML);
+alert('\\u2705 CSS \\ud3ec\\ud568 HTML \\ubcf5\\uc0ac \\uc644\\ub8cc!\\nDesign System Extractor\\uc5d0 \\ubd99\\uc5ec\\ub123\\uae30 \\ud558\\uc138\\uc694.');
+})();`;
+  document.getElementById('bookmarkletLink').href = 'javascript:' + encodeURIComponent(code);
+})();
 
 // ── Tab clicks ────────────────────────────────────────────────────────
 document.getElementById('tabs').addEventListener('click', e => {
@@ -566,7 +685,8 @@ async function runAnalysis() {
   const baseUrl = document.getElementById('pageUrl').value.trim();
   if (!html) { toast('HTML을 먼저 붙여넣어 주세요'); return; }
 
-  document.getElementById('results').innerHTML = '<div class="loading"><div class="spinner"></div>분석 중...</div>';
+  document.getElementById('results').innerHTML =
+    '<div class="loading"><div class="spinner"></div>분석 중...</div>';
 
   try {
     D = await extract(html, baseUrl);
@@ -575,14 +695,15 @@ async function runAnalysis() {
     switchTab('colors');
     document.getElementById('exportBar').style.display = 'flex';
     document.getElementById('statsBar').style.display = 'flex';
-    const extra = D._fetchedSheets > 0 ? ` (외부 CSS ${D._fetchedSheets}개 로드)` : '';
+    const extra = D._fetchedSheets > 0 ? ` · 외부 CSS ${D._fetchedSheets}개` : '';
     toast('분석 완료!' + extra);
   } catch (err) {
-    document.getElementById('results').innerHTML = `<div class="empty"><p style="color:#f87171">오류: ${err.message}</p></div>`;
+    document.getElementById('results').innerHTML =
+      `<div class="empty"><p style="color:var(--red)">오류: ${err.message}</p></div>`;
   }
 }
 
-// ── Single reusable canvas (avoids context limit per color) ───────────
+// ── Reusable canvas ───────────────────────────────────────────────────
 const _cc = document.createElement('canvas');
 _cc.width = _cc.height = 1;
 const _cx = _cc.getContext('2d');
@@ -592,19 +713,25 @@ async function extract(html, baseUrl) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
 
   const d = {
-    cssVars: {},
+    cssVars: {}, darkVars: {},
     rawColors: [],
-    fonts: new Set(),
-    fontSizes: new Set(),
-    fontWeights: new Set(),
-    lineHeights: new Set(),
-    spacing: new Set(),
-    borderRadius: new Set(),
-    shadows: new Set(),
-    borders: new Set(),
-    transitions: new Set(),
+    fonts: new Map(), // name → { isGFont }
+    fontSizes: new Set(), fontWeights: new Set(), lineHeights: new Set(),
+    spacing: new Set(), borderRadius: new Set(),
+    shadows: new Set(), borders: new Set(), transitions: new Set(),
     classes: {},
   };
+
+  // Google Fonts from <link> tags
+  doc.querySelectorAll('link[href*="fonts.googleapis.com"]').forEach(link => {
+    const href = link.getAttribute('href');
+    const m = href.match(/family=([^&]+)/);
+    if (!m) return;
+    decodeURIComponent(m[1]).split(/[|,]/).forEach(f => {
+      const name = f.split(':')[0].replace(/\+/g, ' ').trim();
+      if (name) d.fonts.set(name, { isGFont: true });
+    });
+  });
 
   // Style tags
   doc.querySelectorAll('style').forEach(s => parseCSS(s.textContent, d));
@@ -612,11 +739,10 @@ async function extract(html, baseUrl) {
   // Inline styles
   doc.querySelectorAll('[style]').forEach(el => parseCSS(el.getAttribute('style'), d, true));
 
-  // Script tags — scan for embedded CSS strings (e.g. Next.js RSC / SSR data)
+  // Script tags — Next.js RSC / SSR embedded CSS
   doc.querySelectorAll('script').forEach(s => {
     const text = s.textContent;
     if (!text || text.length < 20) return;
-    // Only extract hex/rgb/hsl — named colors too noisy in JS strings
     reAll(/(#[0-9a-fA-F]{3,8}(?![0-9a-fA-F])|rgba?\s*\([^)]+\)|hsla?\s*\([^)]+\)|oklch\s*\([^)]+\))/g, text, m => {
       d.rawColors.push(m[1].trim());
     });
@@ -633,29 +759,28 @@ async function extract(html, baseUrl) {
     });
   });
 
-  // Fetch external stylesheets
+  // Fetch external stylesheets with @import resolution
   let fetchedSheets = 0;
-  const resolvedBase = baseUrl ? resolveBase(baseUrl) : null;
+  const resolvedBase = baseUrl ? safeUrl(baseUrl) : null;
   if (resolvedBase) {
+    const visited = new Set();
     const links = [...doc.querySelectorAll('link[rel~="stylesheet"][href]')];
     const results = await Promise.allSettled(links.map(async link => {
       const href = resolveHref(link.getAttribute('href'), resolvedBase);
       if (!href) return;
-      const res = await fetch(href, { mode: 'cors' });
-      if (!res.ok) throw new Error('not ok');
-      const css = await res.text();
-      parseCSS(css, d);
-      fetchedSheets++;
+      const css = await fetchCSS(href, visited);
+      if (css) { parseCSS(css, d); fetchedSheets++; }
     }));
-    // Count only fulfilled
     fetchedSheets = results.filter(r => r.status === 'fulfilled').length;
   }
 
-  // Post-process
+  // font-family strings from CSS → merge into fonts map
+  d._fontList = [...d.fonts.entries()].map(([name, meta]) => ({ name, ...meta }));
+
   return {
-    cssVars: d.cssVars,
+    cssVars: d.cssVars, darkVars: d.darkVars,
     colors: dedupeColors(d.rawColors),
-    fonts: [...d.fonts].filter(f => f.length > 1 && f.length < 80),
+    fonts: d._fontList,
     fontSizes: sortNum([...d.fontSizes]),
     fontWeights: [...d.fontWeights].sort(),
     lineHeights: [...d.lineHeights].sort(),
@@ -669,22 +794,37 @@ async function extract(html, baseUrl) {
   };
 }
 
-function resolveBase(url) {
-  try { return new URL(url); } catch { return null; }
-}
-
-function resolveHref(href, base) {
-  if (!href) return null;
+// ── Fetch CSS with @import resolution ────────────────────────────────
+async function fetchCSS(url, visited = new Set(), depth = 0) {
+  if (depth > 3 || visited.has(url)) return '';
+  visited.add(url);
   try {
-    if (href.startsWith('//')) return base.protocol + href;
-    if (href.startsWith('/')) return base.origin + href;
-    if (href.startsWith('http')) return href;
-    return base.origin + '/' + href;
-  } catch { return null; }
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) return '';
+    const css = await res.text();
+    const base = safeUrl(url);
+    const importPromises = [];
+    reAll(/@import\s+(?:url\()?['"]?([^'");\s]+)['"]?\)?/g, css, m => {
+      const importUrl = base ? resolveHref(m[1], base) : null;
+      if (importUrl) importPromises.push(fetchCSS(importUrl, visited, depth + 1));
+    });
+    const imported = await Promise.all(importPromises);
+    return imported.join('\n') + '\n' + css;
+  } catch { return ''; }
 }
 
+// ── CSS parser ────────────────────────────────────────────────────────
 function parseCSS(css, d, inline = false) {
   if (!css) return;
+
+  // Extract dark-mode blocks separately
+  const darkCSS = extractDarkModeCSS(css);
+  if (darkCSS) {
+    reAll(/--([\w-]+)\s*:\s*([^;}\n]+)/g, darkCSS, m => {
+      const val = m[2].replace(/\/\*.*?\*\//g, '').trim();
+      if (val) d.darkVars[`--${m[1]}`] = val;
+    });
+  }
 
   // CSS custom properties
   reAll(/--([\w-]+)\s*:\s*([^;}\n]+)/g, css, m => {
@@ -698,7 +838,7 @@ function parseCSS(css, d, inline = false) {
     if (c !== 'inherit' && c !== 'initial') d.rawColors.push(c);
   });
 
-  // Named colors from color-bearing properties (e.g. color: white)
+  // Named colors from color-bearing properties
   reAll(/(?:^|[\s{;])(?:color|background-color|border-color|outline-color|fill|stroke|caret-color|accent-color|stop-color)\s*:\s*([a-zA-Z]{2,})\s*(?:[;!}\n]|$)/gm, css, m => {
     const v = m[1].trim();
     const skip = new Set(['inherit','initial','unset','revert','none','auto','transparent','currentcolor','currentColor']);
@@ -709,167 +849,246 @@ function parseCSS(css, d, inline = false) {
   reAll(/font-family\s*:\s*([^;}\n]+)/g, css, m => {
     m[1].split(',').forEach(f => {
       const clean = f.replace(/!important/g,'').trim().replace(/^['"]|['"]$/g,'').trim();
-      if (clean && !clean.startsWith('var(') && !clean.startsWith('-')) d.fonts.add(clean);
+      if (clean && !clean.startsWith('var(') && !clean.startsWith('-'))
+        d.fonts.set(clean, d.fonts.get(clean) || { isGFont: false });
     });
   });
 
-  // font-size
-  reAll(/font-size\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v && isUnit(v)) d.fontSizes.add(v);
-  });
+  reAll(/font-size\s*:\s*([^;}\n]+)/g, css, m => { const v=sanitize(m[1]); if(v&&isUnit(v)) d.fontSizes.add(v); });
+  reAll(/font-weight\s*:\s*([^;}\n]+)/g, css, m => { const v=sanitize(m[1]); if(v) d.fontWeights.add(v); });
+  reAll(/line-height\s*:\s*([^;}\n]+)/g, css, m => { const v=sanitize(m[1]); if(v) d.lineHeights.add(v); });
 
-  // font-weight
-  reAll(/font-weight\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v) d.fontWeights.add(v);
-  });
-
-  // line-height
-  reAll(/line-height\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v) d.lineHeights.add(v);
-  });
-
-  // spacing: padding / margin / gap
   reAll(/(?:^|[\s{;])(?:padding|margin|gap)(?:-(?:top|right|bottom|left|block|inline)(?:-(?:start|end))?)?\s*:\s*([^;}\n]+)/gm, css, m => {
-    m[1].split(/\s+/).forEach(v => {
-      v = v.replace(/!important/g,'').trim();
-      if (isUnit(v)) d.spacing.add(v);
-    });
+    m[1].split(/\s+/).forEach(v => { v=v.replace(/!important/g,'').trim(); if(isUnit(v)) d.spacing.add(v); });
   });
 
-  // border-radius
   reAll(/border-radius\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]).split('/')[0].trim();
-    // handle multi-value: take unique tokens
-    v.split(/\s+/).forEach(token => {
-      if (isUnit(token)) d.borderRadius.add(token);
-    });
+    sanitize(m[1]).split('/')[0].trim().split(/\s+/).forEach(t => { if(isUnit(t)) d.borderRadius.add(t); });
   });
 
-  // box-shadow
-  reAll(/box-shadow\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v && v !== 'none') d.shadows.add(v);
-  });
-
-  // border
+  reAll(/box-shadow\s*:\s*([^;}\n]+)/g, css, m => { const v=sanitize(m[1]); if(v&&v!=='none') d.shadows.add(v); });
   reAll(/border(?:-(?:top|right|bottom|left))?\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v && v !== 'none' && v !== '0') d.borders.add(v);
+    const v=sanitize(m[1]); if(v&&v!=='none'&&v!=='0') d.borders.add(v);
   });
+  reAll(/transition\s*:\s*([^;}\n]+)/g, css, m => { const v=sanitize(m[1]); if(v&&v!=='none') d.transitions.add(v); });
+}
 
-  // transition
-  reAll(/transition\s*:\s*([^;}\n]+)/g, css, m => {
-    const v = sanitize(m[1]);
-    if (v && v !== 'none') d.transitions.add(v);
-  });
+function extractDarkModeCSS(css) {
+  const out = [];
+  const re = /@media\s*[^{]*prefers-color-scheme\s*:\s*dark[^{]*\{/g;
+  let m;
+  while ((m = re.exec(css)) !== null) {
+    let depth = 1, pos = m.index + m[0].length;
+    while (pos < css.length && depth > 0) {
+      if (css[pos] === '{') depth++;
+      else if (css[pos] === '}') depth--;
+      pos++;
+    }
+    out.push(css.slice(m.index + m[0].length, pos - 1));
+  }
+  return out.join('\n');
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────
-function reAll(re, str, cb) {
-  let m;
-  while ((m = re.exec(str)) !== null) cb(m);
-}
-
-function sanitize(v) {
-  return v.replace(/!important/g,'').replace(/\/\*.*?\*\//g,'').trim();
-}
-
-function isUnit(v) {
-  return /^\d+(\.\d+)?(px|rem|em|vh|vw|%)$/.test(v);
-}
-
-function toPx(v) {
-  const n = parseFloat(v);
-  if (v.includes('rem') || v.includes('em')) return n * 16;
-  return n;
-}
-
+function reAll(re, str, cb) { let m; while ((m = re.exec(str)) !== null) cb(m); }
+function sanitize(v) { return v.replace(/!important/g,'').replace(/\/\*.*?\*\//g,'').trim(); }
+function isUnit(v) { return /^\d+(\.\d+)?(px|rem|em|vh|vw|%)$/.test(v); }
+function toPx(v) { const n=parseFloat(v); return (v.includes('rem')||v.includes('em')) ? n*16 : n; }
 function sortNum(arr) {
-  return arr.sort((a, b) => {
-    const na = parseFloat(a), nb = parseFloat(b);
-    return isNaN(na) || isNaN(nb) ? a.localeCompare(b) : na - nb;
-  });
+  return arr.sort((a,b) => { const na=parseFloat(a),nb=parseFloat(b); return isNaN(na)||isNaN(nb)?a.localeCompare(b):na-nb; });
+}
+function safeUrl(s) { try { return new URL(s); } catch { return null; } }
+function resolveHref(href, base) {
+  if (!href) return null;
+  try {
+    if (href.startsWith('//')) return base.protocol + href;
+    if (href.startsWith('/')) return base.origin + href;
+    if (href.startsWith('http')) return href;
+    return base.origin + '/' + href;
+  } catch { return null; }
 }
 
-// ── Color dedup ───────────────────────────────────────────────────────
-function dedupeColors(arr) {
-  const map = new Map();
-  arr.forEach(c => {
-    const key = normalizeColorKey(c);
-    if (key && !map.has(key)) map.set(key, c);
-  });
-  return [...map.values()];
-}
-
+// ── Color utils ───────────────────────────────────────────────────────
 function normalizeColorKey(color) {
   if (!_cx) return null;
   try {
-    _cx.clearRect(0, 0, 1, 1);
-    _cx.fillStyle = '#000'; // reset to known state
-    _cx.fillStyle = color;  // if invalid, stays black
-    _cx.fillRect(0, 0, 1, 1);
-    const [r, g, b, a] = _cx.getImageData(0, 0, 1, 1).data;
-    if (a === 0) return null;
-    return `${r},${g},${b},${a}`; // include alpha so semi-transparent ≠ opaque
+    _cx.clearRect(0,0,1,1); _cx.fillStyle='#000'; _cx.fillStyle=color;
+    _cx.fillRect(0,0,1,1);
+    const [r,g,b,a] = _cx.getImageData(0,0,1,1).data;
+    if (a===0) return null;
+    return `${r},${g},${b},${a}`;
   } catch { return null; }
+}
+
+function dedupeColors(arr) {
+  const map = new Map();
+  arr.forEach(c => { const k=normalizeColorKey(c); if(k&&!map.has(k)) map.set(k,c); });
+  return [...map.values()];
 }
 
 function toHex(color) {
   if (!_cx) return null;
   try {
-    _cx.clearRect(0, 0, 1, 1);
-    _cx.fillStyle = color;
-    _cx.fillRect(0, 0, 1, 1);
-    const [r, g, b] = _cx.getImageData(0, 0, 1, 1).data;
-    return '#' + [r, g, b].map(x => x.toString(16).padStart(2,'0')).join('');
+    _cx.clearRect(0,0,1,1); _cx.fillStyle=color; _cx.fillRect(0,0,1,1);
+    const [r,g,b] = _cx.getImageData(0,0,1,1).data;
+    return '#' + [r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
   } catch { return null; }
+}
+
+function hexToRgb(hex) {
+  const h = hex.replace('#','');
+  const n = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+  return [parseInt(n.slice(0,2),16), parseInt(n.slice(2,4),16), parseInt(n.slice(4,6),16)];
+}
+
+function hexToHsl(hex) {
+  let [r,g,b] = hexToRgb(hex).map(x=>x/255);
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if (max===min) { h=s=0; }
+  else {
+    const d=max-min; s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max) {
+      case r: h=((g-b)/d+(g<b?6:0))/6; break;
+      case g: h=((b-r)/d+2)/6; break;
+      default: h=((r-g)/d+4)/6;
+    }
+  }
+  return [Math.round(h*360), Math.round(s*100), Math.round(l*100)];
+}
+
+function wcagLuminance(hex) {
+  return hexToRgb(hex).map(c => {
+    c /= 255;
+    return c <= 0.03928 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4);
+  }).reduce((acc,c,i) => acc + c * [0.2126,0.7152,0.0722][i], 0);
+}
+
+function contrastRatio(h1, h2) {
+  const l1=wcagLuminance(h1), l2=wcagLuminance(h2);
+  const [li,da] = l1>l2 ? [l1,l2] : [l2,l1];
+  return (li+0.05)/(da+0.05);
 }
 
 function isColorVal(v) {
   return /(#[0-9a-fA-F]{3,8}|rgba?\(|hsla?\()/.test(v);
 }
 
-// ── Badge & stats ──────────────────────────────────────────────────────
+// ── Color palette grouping ────────────────────────────────────────────
+const HUE_GROUPS = [
+  { name: 'Red',    range:[345,15],  dot:'#f87171' },
+  { name: 'Orange', range:[15,45],   dot:'#fb923c' },
+  { name: 'Yellow', range:[45,75],   dot:'#fbbf24' },
+  { name: 'Green',  range:[75,165],  dot:'#4ade80' },
+  { name: 'Cyan',   range:[165,195], dot:'#22d3ee' },
+  { name: 'Blue',   range:[195,255], dot:'#60a5fa' },
+  { name: 'Purple', range:[255,315], dot:'#a78bfa' },
+  { name: 'Pink',   range:[315,345], dot:'#f472b6' },
+];
+
+function groupColorsByHue(colors) {
+  const groups = { Neutral: [] };
+  HUE_GROUPS.forEach(g => { groups[g.name] = []; });
+
+  colors.forEach(c => {
+    const hex = toHex(c);
+    if (!hex) return;
+    const [h, s, l] = hexToHsl(hex);
+    if (s < 12 || l < 5 || l > 95) { groups.Neutral.push({ c, hex }); return; }
+    let placed = false;
+    for (const g of HUE_GROUPS) {
+      const [lo, hi] = g.range;
+      const inRange = lo > hi ? (h >= lo || h < hi) : (h >= lo && h < hi);
+      if (inRange) { groups[g.name].push({ c, hex }); placed = true; break; }
+    }
+    if (!placed) groups.Neutral.push({ c, hex });
+  });
+
+  // Sort each group by lightness
+  Object.values(groups).forEach(arr => arr.sort((a,b) => {
+    const la = hexToHsl(a.hex)[2], lb = hexToHsl(b.hex)[2];
+    return la - lb;
+  }));
+
+  return groups;
+}
+
+// ── WCAG contrast pairs ───────────────────────────────────────────────
+function buildContrastPairs() {
+  const allHex = D.colors.map(c => toHex(c)).filter(Boolean);
+
+  // Heuristic: separate light vs dark colors by luminance
+  const light = allHex.filter(h => wcagLuminance(h) > 0.3);
+  const dark  = allHex.filter(h => wcagLuminance(h) <= 0.3);
+
+  const pairs = [];
+  // Also use CSS var semantics
+  const textVars = Object.entries(D.cssVars).filter(([k]) =>
+    /text|content|foreground|fg|label|title|body/.test(k)
+  ).map(([,v]) => toHex(v)).filter(Boolean);
+  const bgVars = Object.entries(D.cssVars).filter(([k]) =>
+    /bg|background|surface|fill|canvas/.test(k)
+  ).map(([,v]) => toHex(v)).filter(Boolean);
+
+  const texts = textVars.length ? textVars : dark;
+  const bgs   = bgVars.length   ? bgVars   : light;
+
+  const seen = new Set();
+  const tryPair = (fg, bg) => {
+    if (!fg || !bg || fg === bg) return;
+    const key = fg + '|' + bg;
+    if (seen.has(key)) return;
+    seen.add(key);
+    const ratio = contrastRatio(fg, bg);
+    pairs.push({ fg, bg, ratio });
+  };
+
+  texts.forEach(fg => bgs.forEach(bg => tryPair(fg, bg)));
+  // Also try all-vs-all for small sets
+  if (pairs.length < 10) {
+    allHex.forEach((a,i) => allHex.slice(i+1).forEach(b => tryPair(a,b)));
+  }
+
+  return pairs.sort((a,b) => b.ratio - a.ratio).slice(0, 60);
+}
+
+// ── Badge & stats ─────────────────────────────────────────────────────
 function updateCountBadges() {
-  el('cnt-colors').textContent = D.colors.length;
-  el('cnt-vars').textContent   = Object.keys(D.cssVars).length;
-  el('cnt-cls').textContent    = Object.keys(D.classes).length;
+  el('cnt-colors').textContent   = D.colors.length;
+  el('cnt-vars').textContent     = Object.keys(D.cssVars).length;
+  el('cnt-cls').textContent      = Object.keys(D.classes).length;
+  el('cnt-contrast').textContent = buildContrastPairs().length;
 }
 
 function updateStatsBar() {
-  const sb = el('statsBar');
-  sb.style.display = 'flex';
   const items = [
     [D.colors.length, '색상'],
     [D.fonts.length, '폰트'],
     [D.fontSizes.length, '크기'],
     [D.spacing.length, '간격'],
     [Object.keys(D.cssVars).length, 'CSS 변수'],
+    [Object.keys(D.darkVars).length, '다크모드'],
     [D.shadows.length, '그림자'],
     [Object.keys(D.classes).length, '클래스'],
     ...(D._fetchedSheets > 0 ? [[D._fetchedSheets, '외부CSS']] : []),
   ];
-  sb.innerHTML = items.map(([n, label]) =>
+  el('statsBar').innerHTML = items.map(([n,label]) =>
     `<div class="stat-item"><strong>${n}</strong><span>${label}</span></div>`
   ).join('');
 }
 
-// ── Render tabs ───────────────────────────────────────────────────────
+// ── Render dispatcher ─────────────────────────────────────────────────
 function renderTab(name) {
   const r = el('results');
   switch (name) {
     case 'colors':     r.innerHTML = renderColors();     break;
+    case 'contrast':   r.innerHTML = renderContrast();   break;
     case 'typography': r.innerHTML = renderTypography(); break;
     case 'spacing':    r.innerHTML = renderSpacing();    break;
     case 'variables':  r.innerHTML = renderVariables();  break;
     case 'effects':    r.innerHTML = renderEffects();    break;
     case 'components': r.innerHTML = renderComponents(); break;
   }
-
-  // Attach search
   const s = r.querySelector('.search');
   if (s) s.addEventListener('input', () => {
     if (name === 'variables')  filterTable('varTbody', s.value);
@@ -877,33 +1096,81 @@ function renderTab(name) {
   });
 }
 
-// ── Colors ────────────────────────────────────────────────────────────
+// ── Colors tab ────────────────────────────────────────────────────────
 function renderColors() {
-  if (!D.colors.length && !Object.keys(D.cssVars).some(k => isColorVal(D.cssVars[k]))) {
-    return noData('추출된 색상이 없습니다');
+  const groups = groupColorsByHue(D.colors);
+  const hasGroups = Object.values(groups).some(g => g.length > 0);
+
+  const varColors = Object.entries(D.cssVars).filter(([,v]) => isColorVal(v));
+  const darkPairs = Object.entries(D.darkVars).filter(([k,v]) =>
+    D.cssVars[k] && isColorVal(v)
+  );
+
+  if (!hasGroups && !varColors.length) return noData('추출된 색상이 없습니다');
+
+  let html = '';
+
+  // Grouped palette
+  if (hasGroups) {
+    let groupsHtml = '';
+    const order = ['Neutral', ...HUE_GROUPS.map(g=>g.name)];
+    order.forEach(name => {
+      const items = groups[name];
+      if (!items || !items.length) return;
+      const dot = HUE_GROUPS.find(g=>g.name===name)?.dot || '#888';
+      const dotStyle = name === 'Neutral'
+        ? 'background:linear-gradient(135deg,#fff 50%,#333 50%)'
+        : `background:${dot}`;
+      groupsHtml += `
+        <div class="hue-group">
+          <div class="hue-group-title">
+            <span class="hue-dot" style="${dotStyle}"></span>
+            ${name} <span class="badge">${items.length}</span>
+          </div>
+          <div class="color-grid">
+            ${items.map(({c,hex}) => swatch(c, hex, '')).join('')}
+          </div>
+        </div>`;
+    });
+    html += `<div class="sec">
+      <div class="sec-title">색상 팔레트 <span class="badge">${D.colors.length}</span></div>
+      ${groupsHtml}
+    </div>`;
   }
 
-  const swatches = D.colors.map(c => {
-    const hex = toHex(c) || c;
-    return swatch(c, hex, '');
-  }).join('');
+  // CSS variable colors
+  if (varColors.length) {
+    html += `<div class="sec">
+      <div class="sec-title">변수 색상 <span class="badge">${varColors.length}</span></div>
+      <div class="color-grid">
+        ${varColors.map(([k,v]) => swatch(v, k, toHex(v)||'')).join('')}
+      </div>
+    </div>`;
+  }
 
-  const varSwatches = Object.entries(D.cssVars)
-    .filter(([, v]) => isColorVal(v))
-    .map(([k, v]) => swatch(v, k, toHex(v) || ''))
-    .join('');
+  // Light / Dark mode pairs
+  if (darkPairs.length) {
+    const rows = darkPairs.map(([k, darkVal]) => {
+      const lightVal = D.cssVars[k];
+      const lh = toHex(lightVal)||lightVal;
+      const dh = toHex(darkVal)||darkVal;
+      return `
+        <div class="dark-pair" onclick="copy('${esc(k)}')" style="cursor:pointer" title="클릭: 변수명 복사">
+          <div class="dark-swatch" style="background:${esc(lightVal)}"></div>
+          <span class="mode-tag mode-light">☀</span>
+          <div class="dark-swatch" style="background:${esc(darkVal)}"></div>
+          <span class="mode-tag mode-dark">🌙</span>
+          <span class="dark-label">${esc(k)}</span>
+          <span style="font-size:9px;color:var(--text-2);font-family:monospace">${esc(lh)} / ${esc(dh)}</span>
+        </div>`;
+    }).join('');
+    html += `<div class="sec">
+      <div class="sec-title">Light / Dark 페어 <span class="badge">${darkPairs.length}</span></div>
+      ${rows}
+    </div>`;
+  }
 
-  return `
-    ${D.colors.length ? `
-    <div class="sec">
-      <div class="sec-title">색상 팔레트 <span class="badge">${D.colors.length}</span></div>
-      <div class="color-grid">${swatches}</div>
-    </div>` : ''}
-    ${varSwatches ? `
-    <div class="sec">
-      <div class="sec-title">변수 색상</div>
-      <div class="color-grid">${varSwatches}</div>
-    </div>` : ''}`;
+  return html;
 }
 
 function swatch(bg, label, sub) {
@@ -918,15 +1185,61 @@ function swatch(bg, label, sub) {
     </div>`;
 }
 
-// ── Typography ────────────────────────────────────────────────────────
-function renderTypography() {
-  const fontSection = D.fonts.length ? `
+// ── Contrast tab ──────────────────────────────────────────────────────
+function renderContrast() {
+  const pairs = buildContrastPairs();
+  if (!pairs.length) return noData('대비를 계산할 색상이 부족합니다');
+
+  const items = pairs.map(({ fg, bg, ratio }) => {
+    const r = ratio.toFixed(2);
+    const aa   = ratio >= 4.5;
+    const aaa  = ratio >= 7;
+    const aalg = ratio >= 3;
+    return `
+      <div class="contrast-pair">
+        <div class="contrast-preview" style="background:${esc(bg)};color:${esc(fg)}">Aa</div>
+        <div class="contrast-info">
+          <div class="contrast-ratio">${r}:1</div>
+          <div class="contrast-labels">${esc(fg)} / ${esc(bg)}</div>
+        </div>
+        <div class="wcag-badges">
+          <span class="wcag-badge ${aaa?'wcag-pass':'wcag-fail'}">AAA</span>
+          <span class="wcag-badge ${aa?'wcag-pass':'wcag-fail'}">AA</span>
+          <span class="wcag-badge ${aalg?'wcag-pass':'wcag-fail'}">AA LG</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  return `
     <div class="sec">
-      <div class="sec-title">폰트 패밀리 <span class="badge">${D.fonts.length}</span></div>
-      ${D.fonts.map(f => `
+      <div class="sec-title">WCAG 명도 대비 <span class="badge">${pairs.length}쌍</span></div>
+      <p style="font-size:11px;color:var(--text-2);margin-bottom:12px">AA ≥ 4.5 · AAA ≥ 7.0 · AA LG (큰 텍스트) ≥ 3.0</p>
+      ${items}
+    </div>`;
+}
+
+// ── Typography tab ────────────────────────────────────────────────────
+function renderTypography() {
+  const gFonts = D.fonts.filter(f => f.isGFont);
+  const localFonts = D.fonts.filter(f => !f.isGFont);
+
+  const gFontSection = gFonts.length ? `
+    <div class="sec">
+      <div class="sec-title">Google Fonts <span class="badge">${gFonts.length}</span></div>
+      ${gFonts.map(f => `
         <div class="font-card">
-          <div class="font-meta">${esc(f)}</div>
-          <div class="font-sample" style="font-family:${esc(f)}">Aa 가나다 123</div>
+          <div class="font-meta">${esc(f.name)}<span class="gfont-badge">Google Fonts</span></div>
+          <div class="font-sample" style="font-family:'${esc(f.name)}'">Aa 가나다 123</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  const fontSection = localFonts.length ? `
+    <div class="sec">
+      <div class="sec-title">폰트 패밀리 <span class="badge">${localFonts.length}</span></div>
+      ${localFonts.map(f => `
+        <div class="font-card">
+          <div class="font-meta">${esc(f.name)}</div>
+          <div class="font-sample" style="font-family:'${esc(f.name)}'">Aa 가나다 123</div>
         </div>`).join('')}
     </div>` : '';
 
@@ -960,26 +1273,25 @@ function renderTypography() {
         </div>`).join('')}
     </div>` : '';
 
-  return fontSection + sizeSection + wSection + lhSection || noData('타이포그래피 정보가 없습니다');
+  return gFontSection + fontSection + sizeSection + wSection + lhSection
+    || noData('타이포그래피 정보가 없습니다');
 }
 
-// ── Spacing ───────────────────────────────────────────────────────────
+// ── Spacing tab ───────────────────────────────────────────────────────
 function renderSpacing() {
   const spacingSection = (() => {
     if (!D.spacing.length) return '';
-    const maxPx = D.spacing.reduce((m, s) => Math.max(m, toPx(s)), 1);
+    const maxPx = D.spacing.reduce((m,s) => Math.max(m,toPx(s)), 1);
     return `
       <div class="sec">
         <div class="sec-title">간격 스케일 <span class="badge">${D.spacing.length}</span></div>
         ${D.spacing.map(s => {
-          const px = toPx(s);
-          const w = Math.min(Math.max((px / maxPx) * 260, 4), 260);
-          return `
-            <div class="spacing-row">
-              <span class="spacing-label">${esc(s)}</span>
-              <div class="spacing-bar" style="width:${w}px"></div>
-              <span class="spacing-px">${px}px</span>
-            </div>`;
+          const px=toPx(s), w=Math.min(Math.max((px/maxPx)*260,4),260);
+          return `<div class="spacing-row">
+            <span class="spacing-label">${esc(s)}</span>
+            <div class="spacing-bar" style="width:${w}px"></div>
+            <span class="spacing-px">${px}px</span>
+          </div>`;
         }).join('')}
       </div>`;
   })();
@@ -1002,16 +1314,21 @@ function renderSpacing() {
   return spacingSection + radiusSection || noData('간격 정보가 없습니다');
 }
 
-// ── Variables ─────────────────────────────────────────────────────────
+// ── Variables tab ─────────────────────────────────────────────────────
 function renderVariables() {
   const entries = Object.entries(D.cssVars);
   if (!entries.length) return noData('CSS 커스텀 프로퍼티가 없습니다');
 
-  const rows = entries.map(([k, v]) => {
+  const rows = entries.map(([k,v]) => {
     const color = isColorVal(v) ? `<span class="dot" style="background:${esc(v)}"></span>` : '';
-    return `<tr data-q="${(k + ' ' + v).toLowerCase()}">
+    const darkV = D.darkVars[k];
+    const darkCol = darkV
+      ? `<span class="dot" style="background:${esc(darkV)};opacity:.7"></span><span style="font-size:9px;color:var(--text-2)">🌙${esc(darkV)}</span>`
+      : '';
+    return `<tr data-q="${(k+' '+v).toLowerCase()}">
       <td>${esc(k)}</td>
       <td>${color}${esc(v)}</td>
+      <td>${darkCol}</td>
     </tr>`;
   }).join('');
 
@@ -1025,7 +1342,7 @@ function renderVariables() {
     </div>`;
 }
 
-// ── Effects ───────────────────────────────────────────────────────────
+// ── Effects tab ───────────────────────────────────────────────────────
 function renderEffects() {
   const shadows = D.shadows.length ? `
     <div class="sec">
@@ -1051,33 +1368,61 @@ function renderEffects() {
     <div class="sec">
       <div class="sec-title">Transition <span class="badge">${D.transitions.length}</span></div>
       ${D.transitions.map(t => `
-        <div style="padding:7px 10px; background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r); margin-bottom:4px; font-family:monospace; font-size:10.5px; color:var(--text-1)">${esc(t)}</div>
+        <div style="padding:7px 10px;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r);margin-bottom:4px;font-family:monospace;font-size:10.5px;color:var(--text-1)">${esc(t)}</div>
       `).join('')}
     </div>` : '';
 
   return shadows + borders + transitions || noData('그림자/테두리 정보가 없습니다');
 }
 
-// ── Components ────────────────────────────────────────────────────────
+// ── Components tab (prefix grouping) ─────────────────────────────────
 function renderComponents() {
-  const sorted = Object.entries(D.classes)
+  const all = Object.entries(D.classes)
     .filter(([k]) => k.length > 1)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 120);
+    .sort((a,b) => b[1]-a[1]);
 
-  if (!sorted.length) return noData('클래스 정보가 없습니다');
+  if (!all.length) return noData('클래스 정보가 없습니다');
 
-  const maxN = sorted[0][1];
-  const items = sorted.map(([cls, n]) => `
-    <div class="cls-row" data-q="${cls.toLowerCase()}">
+  // Build prefix groups
+  const roots = [], childOf = {};
+  const nameSet = new Set(all.map(([k]) => k));
+
+  all.forEach(([cls]) => {
+    const parts = cls.split(/[-_]/);
+    let parent = null;
+    for (let len = parts.length - 1; len >= 1; len--) {
+      const prefix = parts.slice(0, len).join(cls.includes('-') ? '-' : '_');
+      if (nameSet.has(prefix) && prefix !== cls) { parent = prefix; break; }
+    }
+    if (parent) {
+      childOf[parent] = childOf[parent] || [];
+      childOf[parent].push(cls);
+    } else {
+      roots.push(cls);
+    }
+  });
+
+  const classMap = Object.fromEntries(all);
+  const maxN = all[0][1];
+
+  const renderRow = (cls, isChild=false) => {
+    const n = classMap[cls] || 0;
+    return `<div class="cls-row${isChild?' cls-child':''}" data-q="${cls.toLowerCase()}">
       <div class="cls-bg" style="width:${(n/maxN*100).toFixed(1)}%"></div>
       <span class="cls-name">.${esc(cls)}</span>
       <span class="cls-cnt">${n}</span>
-    </div>`).join('');
+    </div>
+    ${(childOf[cls]||[]).map(c => renderRow(c,true)).join('')}`;
+  };
+
+  const groupCount = Object.keys(childOf).length;
+  const items = roots.slice(0, 100).map(cls => renderRow(cls)).join('');
 
   return `
     <div class="sec">
-      <div class="sec-title">클래스 빈도 <span class="badge">${sorted.length}</span></div>
+      <div class="sec-title">클래스 빈도 <span class="badge">${all.length}</span>
+        ${groupCount ? `<span class="badge">${groupCount}개 그룹</span>` : ''}
+      </div>
       <input class="search" placeholder="클래스 검색..." type="text">
       <div id="clsList">${items}</div>
     </div>`;
@@ -1090,7 +1435,6 @@ function filterTable(tbodyId, q) {
     tr.style.display = tr.dataset.q.includes(q) ? '' : 'none';
   });
 }
-
 function filterList(listId, q) {
   q = q.toLowerCase();
   document.querySelectorAll(`#${listId} [data-q]`).forEach(row => {
@@ -1098,89 +1442,153 @@ function filterList(listId, q) {
   });
 }
 
-// ── Export ────────────────────────────────────────────────────────────
+// ── Export: CSS ───────────────────────────────────────────────────────
 function exportCSS() {
   if (!D) return;
-  let out = '/* Design System — extracted by Design System Extractor */\n\n:root {\n';
-
+  let out = '/* Design System — Design System Extractor */\n\n:root {\n';
   if (Object.keys(D.cssVars).length) {
-    out += '  /* ── Custom Properties ── */\n';
-    Object.entries(D.cssVars).forEach(([k, v]) => { out += `  ${k}: ${v};\n`; });
+    out += '  /* Custom Properties */\n';
+    Object.entries(D.cssVars).forEach(([k,v]) => { out += `  ${k}: ${v};\n`; });
     out += '\n';
   }
-
   const colorsNotInVars = D.colors.filter(c =>
-    !Object.values(D.cssVars).some(v => v === c || toHex(v) === toHex(c))
+    !Object.values(D.cssVars).some(v => v===c||toHex(v)===toHex(c))
   );
   if (colorsNotInVars.length) {
-    out += '  /* ── Extracted Colors ── */\n';
-    colorsNotInVars.forEach((c, i) => {
-      out += `  --color-${i + 1}: ${toHex(c) || c};\n`;
-    });
+    out += '  /* Extracted Colors */\n';
+    colorsNotInVars.forEach((c,i) => { out += `  --color-${i+1}: ${toHex(c)||c};\n`; });
     out += '\n';
   }
-
   if (D.spacing.length) {
-    out += '  /* ── Spacing Scale ── */\n';
-    D.spacing.forEach((s, i) => { out += `  --space-${i + 1}: ${s};\n`; });
+    out += '  /* Spacing */\n';
+    D.spacing.forEach((s,i) => { out += `  --space-${i+1}: ${s};\n`; });
     out += '\n';
   }
-
   if (D.borderRadius.length) {
-    out += '  /* ── Border Radius ── */\n';
-    D.borderRadius.forEach((r, i) => { out += `  --radius-${i + 1}: ${r};\n`; });
+    out += '  /* Border Radius */\n';
+    D.borderRadius.forEach((r,i) => { out += `  --radius-${i+1}: ${r};\n`; });
     out += '\n';
   }
-
-  out += '}\n';
+  if (Object.keys(D.darkVars).length) {
+    out += '}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n';
+    Object.entries(D.darkVars).forEach(([k,v]) => { out += `    ${k}: ${v};\n`; });
+    out += '  }\n';
+  } else {
+    out += '}\n';
+  }
   download('design-system.css', out, 'text/css');
 }
 
+// ── Export: JSON tokens ───────────────────────────────────────────────
 function exportJSON() {
   if (!D) return;
   const tokens = {
     color: {},
-    typography: {
-      fontFamily: D.fonts,
-      fontSize: D.fontSizes,
-      fontWeight: D.fontWeights,
-      lineHeight: D.lineHeights,
-    },
-    spacing: Object.fromEntries(D.spacing.map((v, i) => [`space-${i+1}`, { value: v }])),
-    borderRadius: Object.fromEntries(D.borderRadius.map((v, i) => [`radius-${i+1}`, { value: v }])),
-    shadow: Object.fromEntries(D.shadows.map((v, i) => [`shadow-${i+1}`, { value: v }])),
+    typography: { fontFamily: D.fonts.map(f=>f.name), fontSize: D.fontSizes, fontWeight: D.fontWeights, lineHeight: D.lineHeights },
+    spacing: Object.fromEntries(D.spacing.map((v,i) => [`space-${i+1}`,{value:v}])),
+    borderRadius: Object.fromEntries(D.borderRadius.map((v,i) => [`radius-${i+1}`,{value:v}])),
+    shadow: Object.fromEntries(D.shadows.map((v,i) => [`shadow-${i+1}`,{value:v}])),
     cssVariables: D.cssVars,
+    darkVariables: D.darkVars,
   };
-
-  D.colors.forEach((c, i) => {
-    tokens.color[`color-${i+1}`] = { value: toHex(c) || c, raw: c };
-  });
-
-  download('design-tokens.json', JSON.stringify(tokens, null, 2), 'application/json');
+  D.colors.forEach((c,i) => { tokens.color[`color-${i+1}`] = { value: toHex(c)||c, raw:c }; });
+  download('design-tokens.json', JSON.stringify(tokens,null,2), 'application/json');
 }
 
+// ── Export: Figma variables ───────────────────────────────────────────
+function exportFigma() {
+  if (!D) return;
+  const hasDark = Object.keys(D.darkVars).length > 0;
+  const modes = hasDark
+    ? [{ name:'Light', modeId:'light' }, { name:'Dark', modeId:'dark' }]
+    : [{ name:'Default', modeId:'default' }];
+
+  const variables = [];
+  const colorVars = Object.entries(D.cssVars).filter(([,v]) => isColorVal(v));
+
+  colorVars.forEach(([k,v]) => {
+    const lightHex = toHex(v);
+    const darkHex  = D.darkVars[k] ? toHex(D.darkVars[k]) : null;
+    if (!lightHex) return;
+    const toFigmaColor = hex => {
+      const [r,g,b] = hexToRgb(hex);
+      return { r:+(r/255).toFixed(4), g:+(g/255).toFixed(4), b:+(b/255).toFixed(4), a:1 };
+    };
+    const values = hasDark
+      ? { light: toFigmaColor(lightHex), dark: darkHex ? toFigmaColor(darkHex) : toFigmaColor(lightHex) }
+      : { default: toFigmaColor(lightHex) };
+    variables.push({ id:k, name:k.replace(/^--/,'').replace(/-/g,'/'), resolvedType:'COLOR', values });
+  });
+
+  // Number vars (spacing, radius)
+  const numVars = Object.entries(D.cssVars).filter(([,v]) => /^\d+(\.\d+)?(px|rem|em)$/.test(v.trim()));
+  numVars.forEach(([k,v]) => {
+    const px = toPx(v.trim());
+    variables.push({ id:k, name:k.replace(/^--/,'').replace(/-/g,'/'), resolvedType:'FLOAT', values: { default: px } });
+  });
+
+  const collection = {
+    name: 'Design Tokens',
+    modes,
+    variableIds: variables.map(v=>v.id),
+    variables,
+  };
+  download('figma-variables.json', JSON.stringify({ version:'1', collections:[collection] },null,2), 'application/json');
+}
+
+// ── Export: Tailwind config ───────────────────────────────────────────
+function exportTailwind() {
+  if (!D) return;
+  const colors = {};
+  Object.entries(D.cssVars).forEach(([k,v]) => {
+    if (!isColorVal(v)) return;
+    const name = k.replace(/^--/,'').replace(/-/g,'_');
+    colors[name] = `var(${k})`;
+  });
+  D.colors.forEach((c,i) => { colors[`extracted_${i+1}`] = toHex(c)||c; });
+
+  const spacing = {};
+  D.spacing.forEach((v,i) => { spacing[i+1] = v; });
+
+  const borderRadius = {};
+  D.borderRadius.forEach((v,i) => { borderRadius[i+1] = v; });
+
+  const fontFamily = {};
+  D.fonts.forEach(f => { fontFamily[f.name.split(' ')[0].toLowerCase()] = [`'${f.name}'`,'sans-serif']; });
+
+  const out = `/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      colors: ${JSON.stringify(colors, null, 6)},
+      spacing: ${JSON.stringify(spacing, null, 6)},
+      borderRadius: ${JSON.stringify(borderRadius, null, 6)},
+      fontFamily: ${JSON.stringify(fontFamily, null, 6)},
+    },
+  },
+};`;
+  download('tailwind.config.js', out, 'text/javascript');
+}
+
+// ── Copy all ──────────────────────────────────────────────────────────
 function copyAll() {
   if (!D) return;
   const lines = [
-    '=== Design System Tokens ===',
-    '',
-    `Colors (${D.colors.length}): ${D.colors.map(c => toHex(c)||c).join(', ')}`,
-    '',
-    `Fonts (${D.fonts.length}): ${D.fonts.join(', ')}`,
-    '',
-    `Font Sizes (${D.fontSizes.length}): ${D.fontSizes.join(', ')}`,
-    '',
-    `Font Weights (${D.fontWeights.length}): ${D.fontWeights.join(', ')}`,
-    '',
-    `Spacing (${D.spacing.length}): ${D.spacing.join(', ')}`,
-    '',
-    `Border Radius (${D.borderRadius.length}): ${D.borderRadius.join(', ')}`,
-    '',
+    '=== Design System Tokens ===', '',
+    `Colors (${D.colors.length}): ${D.colors.map(c=>toHex(c)||c).join(', ')}`, '',
+    `Fonts (${D.fonts.length}): ${D.fonts.map(f=>f.name).join(', ')}`, '',
+    `Font Sizes (${D.fontSizes.length}): ${D.fontSizes.join(', ')}`, '',
+    `Font Weights (${D.fontWeights.length}): ${D.fontWeights.join(', ')}`, '',
+    `Spacing (${D.spacing.length}): ${D.spacing.join(', ')}`, '',
+    `Border Radius (${D.borderRadius.length}): ${D.borderRadius.join(', ')}`, '',
     `CSS Variables (${Object.keys(D.cssVars).length}):`,
-    ...Object.entries(D.cssVars).map(([k,v]) => `  ${k}: ${v}`),
+    ...Object.entries(D.cssVars).map(([k,v]) => `  ${k}: ${v}`), '',
+    ...(Object.keys(D.darkVars).length ? [
+      `Dark Mode Variables (${Object.keys(D.darkVars).length}):`,
+      ...Object.entries(D.darkVars).map(([k,v]) => `  ${k}: ${v}`),
+    ] : []),
   ];
-  navigator.clipboard.writeText(lines.join('\n'))
-    .then(() => toast('클립보드에 복사됨!'));
+  navigator.clipboard.writeText(lines.join('\n')).then(() => toast('클립보드에 복사됨!'));
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────
@@ -1189,9 +1597,7 @@ function clearAll() {
   document.getElementById('input').value = '';
   el('statsBar').style.display = 'none';
   el('exportBar').style.display = 'none';
-  el('cnt-colors').textContent = '0';
-  el('cnt-vars').textContent   = '0';
-  el('cnt-cls').textContent    = '0';
+  ['cnt-colors','cnt-vars','cnt-cls','cnt-contrast'].forEach(id => el(id).textContent='0');
   el('results').innerHTML = `
     <div class="empty">
       <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
@@ -1201,15 +1607,14 @@ function clearAll() {
         <path d="M17.5 19h3M19 17.5v3" stroke="var(--accent)"/>
       </svg>
       <p><strong>HTML을 붙여넣고</strong><br>분석 시작을 클릭하세요</p>
-      <small>색상 · 폰트 · 간격 · CSS 변수를 자동 추출합니다</small>
+      <small>색상 · 폰트 · 간격 · WCAG 대비 · 다크모드 페어 자동 추출</small>
     </div>`;
 }
 
 function download(name, content, type) {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([content], { type }));
-  a.download = name;
-  a.click();
+  a.download = name; a.click();
   toast(`${name} 다운로드 완료`);
 }
 
@@ -1222,9 +1627,7 @@ function noData(msg) {
 }
 
 function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function el(id) { return document.getElementById(id); }
@@ -1232,15 +1635,13 @@ function el(id) { return document.getElementById(id); }
 let toastTimer;
 function toast(msg) {
   const t = el('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// Ctrl+Enter shortcut
 document.getElementById('input').addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runAnalysis();
+  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') runAnalysis();
 });
 </script>
 </body>
