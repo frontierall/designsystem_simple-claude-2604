@@ -471,6 +471,10 @@
           <div class="step-num">4</div>
           아래 영역에 붙여넣기 후 분석 시작
         </div>
+        <div class="step" style="margin-top:6px;color:var(--yellow);font-size:11px;gap:6px">
+          <span style="min-width:18px;text-align:center">⚠</span>
+          외부 <code>.css</code> 파일 색상은 미포함 — <code>&lt;style&gt;</code> 태그·인라인 스타일만 분석됩니다
+        </div>
       </div>
     </div>
 
@@ -572,6 +576,11 @@ function runAnalysis() {
   }, 50);
 }
 
+// ── Single reusable canvas (avoids context limit per color) ───────────
+const _cc = document.createElement('canvas');
+_cc.width = _cc.height = 1;
+const _cx = _cc.getContext('2d');
+
 // ── Extractor ─────────────────────────────────────────────────────────
 function extract(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -630,10 +639,17 @@ function parseCSS(css, d, inline = false) {
     if (val) d.cssVars[`--${m[1]}`] = val;
   });
 
-  // Colors
-  reAll(/(#[0-9a-fA-F]{3,8}(?![0-9a-fA-F])|rgba?\s*\([^)]+\)|hsla?\s*\([^)]+\))/g, css, m => {
+  // Colors — hex / rgb / hsl / modern formats
+  reAll(/(#[0-9a-fA-F]{3,8}(?![0-9a-fA-F])|rgba?\s*\([^)]+\)|hsla?\s*\([^)]+\)|oklch\s*\([^)]+\)|lch\s*\([^)]+\)|lab\s*\([^)]+\)|hwb\s*\([^)]+\)|color\s*\([^)]+\))/g, css, m => {
     const c = m[1].trim();
     if (c !== 'inherit' && c !== 'initial') d.rawColors.push(c);
+  });
+
+  // Named colors from color-bearing properties (e.g. color: white)
+  reAll(/(?:^|[\s{;])(?:color|background-color|border-color|outline-color|fill|stroke|caret-color|accent-color|stop-color)\s*:\s*([a-zA-Z]{2,})\s*(?:[;!}\n]|$)/gm, css, m => {
+    const v = m[1].trim();
+    const skip = new Set(['inherit','initial','unset','revert','none','auto','transparent','currentcolor','currentColor']);
+    if (!skip.has(v.toLowerCase())) d.rawColors.push(v);
   });
 
   // font-family
@@ -736,27 +752,25 @@ function dedupeColors(arr) {
 }
 
 function normalizeColorKey(color) {
+  if (!_cx) return null;
   try {
-    const canvas = document.createElement('canvas');
-    canvas.width = canvas.height = 1;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 1, 1);
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, 1, 1);
-    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    _cx.clearRect(0, 0, 1, 1);
+    _cx.fillStyle = '#000'; // reset to known state
+    _cx.fillStyle = color;  // if invalid, stays black
+    _cx.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = _cx.getImageData(0, 0, 1, 1).data;
     if (a === 0) return null;
-    return `${r},${g},${b}`;
+    return `${r},${g},${b},${a}`; // include alpha so semi-transparent ≠ opaque
   } catch { return null; }
 }
 
 function toHex(color) {
+  if (!_cx) return null;
   try {
-    const canvas = document.createElement('canvas');
-    canvas.width = canvas.height = 1;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, 1, 1);
-    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    _cx.clearRect(0, 0, 1, 1);
+    _cx.fillStyle = color;
+    _cx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = _cx.getImageData(0, 0, 1, 1).data;
     return '#' + [r, g, b].map(x => x.toString(16).padStart(2,'0')).join('');
   } catch { return null; }
 }
