@@ -532,6 +532,185 @@
       border-radius: 50%;
       animation: spin .7s linear infinite;
     }
+
+    /* ── API Key button in header ───────────────────────────── */
+    .api-key-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: var(--r); cursor: pointer;
+      font-size: 11.5px; color: var(--text-1);
+      transition: border-color .15s, color .15s;
+    }
+    .api-key-btn:hover { border-color: var(--accent); color: var(--text-0); }
+    .api-key-btn.has-key { border-color: var(--green); color: var(--green); }
+    .api-key-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text-2);
+    }
+    .api-key-btn.has-key .api-key-dot { background: var(--green); }
+
+    /* ── Settings modal ─────────────────────────────────────── */
+    .modal-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.55); z-index: 200;
+      align-items: center; justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px; width: 420px;
+      max-width: calc(100vw - 32px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .modal-title {
+      font-size: 15px; font-weight: 600; margin-bottom: 6px;
+    }
+    .modal-desc {
+      font-size: 12px; color: var(--text-1); margin-bottom: 18px; line-height: 1.6;
+    }
+    .modal-label {
+      font-size: 11px; font-weight: 600; color: var(--text-1);
+      text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;
+    }
+    .modal-input {
+      width: 100%; padding: 9px 12px;
+      background: var(--bg-0); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text-0); font-size: 13px;
+      font-family: monospace; letter-spacing: .05em;
+      outline: none; transition: border-color .15s;
+    }
+    .modal-input:focus { border-color: var(--accent); }
+    .modal-actions {
+      display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;
+    }
+    .modal-note {
+      font-size: 11px; color: var(--text-2); margin-top: 10px; line-height: 1.5;
+    }
+
+    /* ── AI tab ─────────────────────────────────────────────── */
+    .ai-section {
+      border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 14px; overflow: hidden;
+    }
+    .ai-section-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      background: var(--bg-2); border-bottom: 1px solid var(--border);
+    }
+    .ai-section-num {
+      width: 22px; height: 22px; min-width: 22px;
+      background: var(--accent-dim); border: 1px solid var(--accent);
+      border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-section-title { font-size: 13px; font-weight: 600; flex: 1; }
+    .ai-section-desc { font-size: 11px; color: var(--text-2); }
+    .ai-section-body { padding: 14px 16px; }
+
+    /* Token role badges */
+    .role-badge {
+      display: inline-block; padding: 2px 7px;
+      border-radius: 5px; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .role-primary   { background: rgba(107,142,255,.2); color: #6b8eff; }
+    .role-secondary { background: rgba(167,139,250,.2); color: #a78bfa; }
+    .role-accent    { background: rgba(251,191,36,.2);  color: #fbbf24; }
+    .role-neutral   { background: rgba(148,153,181,.15);color: #9499b5; }
+    .role-danger    { background: rgba(248,113,113,.2); color: #f87171; }
+    .role-success   { background: rgba(74,222,128,.2);  color: #4ade80; }
+    .role-warning   { background: rgba(251,191,36,.2);  color: #fbbf24; }
+    .role-text      { background: rgba(234,236,244,.1); color: #eaecf4; }
+    .role-surface   { background: rgba(92,96,128,.2);   color: #9499b5; }
+    .role-unknown   { background: var(--bg-3);           color: var(--text-2); }
+
+    .ai-token-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+    }
+    .ai-token-row:last-child { border-bottom: none; }
+    .ai-token-swatch {
+      width: 32px; height: 32px; border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.08); flex-shrink: 0;
+    }
+    .ai-token-info { flex: 1; min-width: 0; }
+    .ai-token-name { font-size: 12px; font-weight: 600; font-family: monospace; }
+    .ai-token-hex  { font-size: 11px; color: var(--text-2); font-family: monospace; }
+    .ai-token-reason { font-size: 11px; color: var(--text-1); margin-top: 2px; }
+    .ai-confidence { font-size: 10px; color: var(--text-2); }
+
+    /* Diagnostic report */
+    .ai-score-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .ai-score-circle {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 3px solid var(--accent); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: var(--accent);
+    }
+    .ai-score-label { font-size: 12px; color: var(--text-1); line-height: 1.6; }
+    .ai-report-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      font-size: 12px; line-height: 1.6;
+    }
+    .ai-report-item:last-child { border-bottom: none; }
+    .ai-report-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+    .ai-report-text { flex: 1; }
+    .ai-report-text strong { color: var(--text-0); }
+
+    /* Streaming text */
+    .ai-stream-wrap {
+      background: var(--bg-0); border-radius: var(--r);
+      padding: 12px; font-size: 12px; line-height: 1.7;
+      color: var(--text-1); min-height: 60px;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .ai-cursor::after {
+      content: '▋'; animation: blink .7s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Chat */
+    .ai-chat-log {
+      height: 260px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 10px; padding: 4px 0;
+    }
+    .chat-msg {
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-avatar {
+      width: 26px; height: 26px; border-radius: 50%;
+      flex-shrink: 0; display: flex; align-items: center;
+      justify-content: center; font-size: 12px;
+      background: var(--bg-3); border: 1px solid var(--border);
+    }
+    .chat-msg.user .chat-avatar { background: var(--accent-dim); }
+    .chat-bubble {
+      max-width: 80%; padding: 8px 12px;
+      border-radius: 10px; font-size: 12px; line-height: 1.6;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .chat-msg.ai   .chat-bubble { background: var(--bg-2); color: var(--text-1); border-radius: 4px 10px 10px 10px; }
+    .chat-msg.user .chat-bubble { background: var(--accent-dim); color: var(--text-0); border: 1px solid rgba(107,142,255,.25); border-radius: 10px 4px 10px 10px; }
+    .chat-input-row { display: flex; gap: 8px; }
+    .chat-input {
+      flex: 1; padding: 8px 12px;
+      background: var(--bg-0); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text-0); font-size: 12.5px;
+      outline: none; resize: none; height: 38px; font-family: inherit;
+      transition: border-color .15s;
+    }
+    .chat-input:focus { border-color: var(--accent); }
+
+    /* No-key placeholder */
+    .ai-no-key {
+      text-align: center; padding: 32px 16px;
+      color: var(--text-2); font-size: 12.5px; line-height: 1.8;
+    }
+    .ai-no-key svg { display: block; margin: 0 auto 12px; opacity: .4; }
   </style>
 </head>
 <body>
@@ -540,10 +719,37 @@
 <header class="header">
   <div class="header-logo">D</div>
   <h1>Design System Extractor</h1>
-  <span class="header-badge">v2 · 9 features</span>
+  <span class="header-badge">v3 · AI</span>
   <div class="header-spacer"></div>
   <span class="header-hint">Ctrl + Enter 로 분석</span>
+  <button class="api-key-btn" id="apiKeyBtn" onclick="openSettings()">
+    <span class="api-key-dot"></span>
+    <span id="apiKeyBtnLabel">OpenAI API 키 설정</span>
+  </button>
 </header>
+
+<!-- ── Settings Modal ───────────────────────────────────────────────── -->
+<div class="modal-backdrop" id="settingsModal" onclick="closeSettingsOnBackdrop(event)">
+  <div class="modal-box">
+    <div class="modal-title">⚙ OpenAI API 키 설정</div>
+    <div class="modal-desc">
+      AI 분석 기능(토큰 역할 분류 · 디자인 진단 · 자연어 Q&A)을 사용하려면 OpenAI API 키가 필요합니다.<br>
+      키는 브라우저 localStorage에만 저장되며 외부로 전송되지 않습니다.
+    </div>
+    <div class="modal-label">API Key</div>
+    <input class="modal-input" id="apiKeyInput" type="password"
+      placeholder="sk-..." autocomplete="off" spellcheck="false">
+    <p class="modal-note">
+      🔑 키 발급: <strong>platform.openai.com → API Keys</strong><br>
+      사용 모델: gpt-4o-mini (저비용 · 고속)
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeSettings()">취소</button>
+      <button class="btn btn-ghost" id="clearKeyBtn" onclick="clearApiKey()" style="color:var(--red)">삭제</button>
+      <button class="btn btn-primary" onclick="saveApiKey()">저장</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Main Layout ─────────────────────────────────────────────────── -->
 <div class="layout">
@@ -609,6 +815,7 @@
       <div class="tab" data-tab="variables">CSS 변수 <span class="cnt" id="cnt-vars">0</span></div>
       <div class="tab" data-tab="effects">그림자·테두리</div>
       <div class="tab" data-tab="components">컴포넌트 <span class="cnt" id="cnt-cls">0</span></div>
+      <div class="tab" data-tab="ai" style="color:var(--accent)">✦ AI 분석</div>
     </div>
 
     <div class="results" id="results">
@@ -1101,6 +1308,7 @@ function renderTab(name) {
     case 'variables':  r.innerHTML = renderVariables();  break;
     case 'effects':    r.innerHTML = renderEffects();    break;
     case 'components': r.innerHTML = renderComponents(); break;
+    case 'ai':         renderAITab();                    break;
   }
   const s = r.querySelector('.search');
   if (s) s.addEventListener('input', () => {
@@ -1656,6 +1864,474 @@ function toast(msg) {
 document.getElementById('input').addEventListener('keydown', e => {
   if ((e.ctrlKey||e.metaKey) && e.key==='Enter') runAnalysis();
 });
+
+// ════════════════════════════════════════════════════════════════════
+// AI FEATURES — OpenAI API Integration
+// ════════════════════════════════════════════════════════════════════
+
+// ── API Key management ────────────────────────────────────────────────
+const API_KEY_STORAGE = 'dse-openai-key';
+
+function getApiKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
+
+function openSettings() {
+  const key = getApiKey();
+  el('apiKeyInput').value = key ? '••••••••' + key.slice(-4) : '';
+  el('settingsModal').classList.add('open');
+  if (!key) el('apiKeyInput').value = '';
+}
+function closeSettings() { el('settingsModal').classList.remove('open'); }
+function closeSettingsOnBackdrop(e) { if (e.target === el('settingsModal')) closeSettings(); }
+
+function saveApiKey() {
+  const val = el('apiKeyInput').value.trim();
+  if (!val || val.startsWith('••')) { closeSettings(); return; }
+  if (!val.startsWith('sk-')) { toast('올바른 API 키 형식이 아닙니다 (sk- 로 시작)'); return; }
+  localStorage.setItem(API_KEY_STORAGE, val);
+  updateApiKeyUI();
+  closeSettings();
+  toast('API 키 저장됨');
+}
+
+function clearApiKey() {
+  localStorage.removeItem(API_KEY_STORAGE);
+  updateApiKeyUI();
+  closeSettings();
+  toast('API 키 삭제됨');
+}
+
+function updateApiKeyUI() {
+  const key = getApiKey();
+  const btn = el('apiKeyBtn');
+  const lbl = el('apiKeyBtnLabel');
+  if (key) {
+    btn.classList.add('has-key');
+    lbl.textContent = 'API 키 설정됨 ···' + key.slice(-4);
+  } else {
+    btn.classList.remove('has-key');
+    lbl.textContent = 'OpenAI API 키 설정';
+  }
+}
+updateApiKeyUI();
+
+// ── OpenAI streaming call ─────────────────────────────────────────────
+async function callOpenAI(messages, onChunk, { json = false } = {}) {
+  const key = getApiKey();
+  if (!key) throw new Error('API 키가 없습니다. 헤더의 "OpenAI API 키 설정"을 클릭하세요.');
+
+  const body = {
+    model: 'gpt-4o-mini',
+    messages,
+    stream: !json,
+  };
+  if (json) body.response_format = { type: 'json_object' };
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${key}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `OpenAI 오류 ${res.status}`);
+  }
+
+  if (json) {
+    const data = await res.json();
+    return data.choices[0].message.content;
+  }
+
+  // Streaming
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let full = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    for (const line of decoder.decode(value).split('\n')) {
+      if (!line.startsWith('data: ')) continue;
+      const raw = line.slice(6);
+      if (raw === '[DONE]') continue;
+      try {
+        const delta = JSON.parse(raw).choices[0]?.delta?.content || '';
+        if (delta) { full += delta; onChunk(full); }
+      } catch {}
+    }
+  }
+  return full;
+}
+
+// ── Build AI context from extracted data ──────────────────────────────
+function buildAIContext() {
+  if (!D) return '';
+  const topColors = D.colors.slice(0, 30).map(c => toHex(c) || c);
+  const varColors = Object.entries(D.cssVars)
+    .filter(([,v]) => isColorVal(v))
+    .slice(0, 30)
+    .map(([k,v]) => `${k}: ${toHex(v) || v}`);
+  const clsTop = Object.entries(D.classes)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0, 40)
+    .map(([k,v]) => `${k}(${v})`);
+
+  return `당신은 디자인 시스템 전문가입니다. 아래는 웹사이트에서 자동 추출된 디자인 토큰 데이터입니다.
+
+## 색상
+팔레트(${D.colors.length}개): ${topColors.join(', ')}
+CSS 색상 변수(${varColors.length}개): ${varColors.join(', ')}
+다크모드 변수(${Object.keys(D.darkVars).length}개): ${Object.entries(D.darkVars).slice(0,15).map(([k,v])=>`${k}:${v}`).join(', ')}
+
+## 타이포그래피
+폰트: ${D.fonts.map(f=>f.name).join(', ') || '없음'}
+크기(${D.fontSizes.length}개): ${D.fontSizes.join(', ')}
+굵기(${D.fontWeights.length}개): ${D.fontWeights.join(', ')}
+Line-height: ${D.lineHeights.join(', ')}
+
+## 간격 & 반경
+간격(${D.spacing.length}개): ${D.spacing.join(', ')}
+Border-radius(${D.borderRadius.length}개): ${D.borderRadius.join(', ')}
+
+## 컴포넌트 클래스 (빈도 상위)
+${clsTop.join(', ')}
+
+## CSS 변수 전체
+${Object.entries(D.cssVars).slice(0,50).map(([k,v])=>`${k}: ${v}`).join('\n')}`;
+}
+
+// ── AI 분석 Tab state ─────────────────────────────────────────────────
+const aiState = {
+  tokenResult: null,   // 개선안 1 결과
+  reportResult: null,  // 개선안 2 결과
+  chatHistory: [],     // 개선안 3 대화 기록
+};
+
+// ── Render AI Tab ─────────────────────────────────────────────────────
+function renderAITab() {
+  const r = el('results');
+  const hasKey = !!getApiKey();
+  const noKeyHtml = !hasKey ? `
+    <div class="ai-no-key">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      OpenAI API 키가 없으면 AI 기능을 사용할 수 없습니다.<br>
+      <button class="btn btn-primary" style="margin-top:12px" onclick="openSettings()">API 키 설정하기</button>
+    </div>` : '';
+
+  r.innerHTML = `
+    <div class="sec" style="max-width:100%">
+      <div class="sec-title">✦ AI 분석 <span style="font-size:10px;font-weight:400;color:var(--text-2);margin-left:4px">gpt-4o-mini</span></div>
+      ${!hasKey ? noKeyHtml : ''}
+
+      <!-- 개선안 1: 토큰 역할 분류 -->
+      <div class="ai-section">
+        <div class="ai-section-head">
+          <div class="ai-section-num">1</div>
+          <div style="flex:1">
+            <div class="ai-section-title">디자인 토큰 역할 분류</div>
+            <div class="ai-section-desc">Primary · Secondary · Accent · Neutral · Danger · Success 역할 자동 판별 + 토큰명 제안</div>
+          </div>
+          <button class="btn btn-primary" onclick="runTokenClassification()" ${!hasKey?'disabled':''}>분류 시작</button>
+        </div>
+        <div class="ai-section-body" id="ai-token-body">
+          ${aiState.tokenResult
+            ? renderTokenResult(aiState.tokenResult)
+            : `<div style="color:var(--text-2);font-size:12px">버튼을 클릭하면 AI가 색상별 역할과 의미 있는 토큰명을 제안합니다.</div>`}
+        </div>
+      </div>
+
+      <!-- 개선안 2: 진단 리포트 -->
+      <div class="ai-section">
+        <div class="ai-section-head">
+          <div class="ai-section-num">2</div>
+          <div style="flex:1">
+            <div class="ai-section-title">디자인 시스템 진단 리포트</div>
+            <div class="ai-section-desc">일관성 점수 · 중복 감지 · 접근성 경고 · 개선 우선순위</div>
+          </div>
+          <button class="btn btn-primary" onclick="runDiagnosticReport()" ${!hasKey?'disabled':''}>리포트 생성</button>
+        </div>
+        <div class="ai-section-body" id="ai-report-body">
+          ${aiState.reportResult
+            ? renderReportResult(aiState.reportResult)
+            : `<div style="color:var(--text-2);font-size:12px">버튼을 클릭하면 추출된 토큰 전체를 분석해 디자인 일관성 점수와 개선 항목을 제공합니다.</div>`}
+        </div>
+      </div>
+
+      <!-- 개선안 3: 자연어 Q&A -->
+      <div class="ai-section">
+        <div class="ai-section-head">
+          <div class="ai-section-num">3</div>
+          <div style="flex:1">
+            <div class="ai-section-title">AI 디자인 어시스턴트</div>
+            <div class="ai-section-desc">추출 결과 기반으로 자유롭게 질문 — "Primary 버튼 스타일이 뭐야?", "색상 무드 설명해줘"</div>
+          </div>
+        </div>
+        <div class="ai-section-body">
+          <div class="ai-chat-log" id="ai-chat-log">
+            ${renderChatLog()}
+          </div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="ai-chat-input"
+              placeholder="${hasKey ? '무엇이든 물어보세요… (Enter 전송 / Shift+Enter 줄바꿈)' : 'API 키를 먼저 설정하세요'}"
+              ${!hasKey ? 'disabled' : ''}
+              onkeydown="handleChatKey(event)"></textarea>
+            <button class="btn btn-primary" onclick="sendChatMessage()" ${!hasKey?'disabled':''}>전송</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  scrollChatToBottom();
+}
+
+// ── 개선안 1: Token Classification ───────────────────────────────────
+async function runTokenClassification() {
+  if (!D) { toast('먼저 HTML을 분석해주세요'); return; }
+  const body = el('ai-token-body');
+  body.innerHTML = '<div class="loading" style="height:60px"><div class="spinner"></div>AI가 색상 역할을 분류 중…</div>';
+
+  const topColors = D.colors.slice(0, 25).map(c => toHex(c) || c);
+  const varColors = Object.entries(D.cssVars)
+    .filter(([,v]) => isColorVal(v)).slice(0, 20)
+    .map(([k,v]) => ({ name: k, hex: toHex(v) || v }));
+
+  const clsByColor = {};
+  Object.entries(D.classes).sort((a,b)=>b[1]-a[1]).slice(0,60).forEach(([cls]) => {
+    const words = cls.toLowerCase().split(/[-_]/);
+    words.forEach(w => {
+      if (w.match(/^(btn|button|primary|secondary|accent|danger|error|success|warning|info|neutral|text|bg|surface|brand)/)) {
+        clsByColor[cls] = (clsByColor[cls]||0)+1;
+      }
+    });
+  });
+
+  const prompt = `아래 웹사이트 색상 데이터를 분석하여 각 색상의 디자인 역할을 분류해주세요.
+
+팔레트 색상: ${topColors.join(', ')}
+CSS 변수 색상: ${varColors.map(v=>`${v.name}=${v.hex}`).join(', ')}
+관련 클래스 힌트: ${Object.keys(clsByColor).slice(0,20).join(', ')}
+
+다음 JSON 형식으로만 답하세요:
+{
+  "tokens": [
+    {
+      "hex": "#색상값",
+      "role": "primary|secondary|accent|neutral|danger|success|warning|text|surface",
+      "suggestedName": "의미있는-토큰명",
+      "reason": "이 색상이 이 역할인 이유 (한국어, 1문장)",
+      "confidence": 0.0~1.0
+    }
+  ],
+  "primaryColor": "#가장중요한브랜드색",
+  "summary": "이 사이트의 색상 전략 한줄 요약 (한국어)"
+}`;
+
+  try {
+    const raw = await callOpenAI(
+      [{ role: 'user', content: prompt }],
+      () => {},
+      { json: true }
+    );
+    const result = JSON.parse(raw);
+    aiState.tokenResult = result;
+    body.innerHTML = renderTokenResult(result);
+  } catch (err) {
+    body.innerHTML = `<div style="color:var(--red);font-size:12px">오류: ${esc(err.message)}</div>`;
+  }
+}
+
+function renderTokenResult(result) {
+  if (!result?.tokens?.length) return '<div style="color:var(--text-2);font-size:12px">결과 없음</div>';
+
+  const ROLE_LABEL = {
+    primary:'Primary', secondary:'Secondary', accent:'Accent',
+    neutral:'Neutral', danger:'Danger', success:'Success',
+    warning:'Warning', text:'Text', surface:'Surface',
+  };
+
+  const rows = result.tokens.map(t => {
+    const role = t.role || 'unknown';
+    const pct = Math.round((t.confidence || 0) * 100);
+    return `
+      <div class="ai-token-row">
+        <div class="ai-token-swatch" style="background:${esc(t.hex)}"></div>
+        <div class="ai-token-info">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+            <span class="ai-token-name">${esc(t.suggestedName || t.hex)}</span>
+            <span class="role-badge role-${esc(role)}">${esc(ROLE_LABEL[role]||role)}</span>
+            <span class="ai-confidence">${pct}%</span>
+          </div>
+          <div class="ai-token-hex">${esc(t.hex)}</div>
+          <div class="ai-token-reason">${esc(t.reason || '')}</div>
+        </div>
+        <button class="btn btn-ghost" style="font-size:10px;padding:3px 7px"
+          onclick="copy('--${esc((t.suggestedName||'color').replace(/\s+/g,'-'))}: ${esc(t.hex)}')">복사</button>
+      </div>`;
+  }).join('');
+
+  const summary = result.summary ? `
+    <div style="background:var(--bg-2);border-radius:var(--r);padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text-1);line-height:1.6">
+      <strong style="color:var(--accent)">✦ 색상 전략</strong>  ${esc(result.summary)}
+      ${result.primaryColor ? `&nbsp;·&nbsp; <strong>Primary:</strong> <span style="color:${esc(result.primaryColor)}">${esc(result.primaryColor)}</span>` : ''}
+    </div>` : '';
+
+  return summary + `<div>${rows}</div>`;
+}
+
+// ── 개선안 2: Diagnostic Report ───────────────────────────────────────
+async function runDiagnosticReport() {
+  if (!D) { toast('먼저 HTML을 분석해주세요'); return; }
+  const body = el('ai-report-body');
+  body.innerHTML = '<div class="loading" style="height:60px"><div class="spinner"></div>AI가 디자인 시스템을 진단 중…</div>';
+
+  const prompt = `아래는 웹사이트에서 추출한 디자인 시스템 데이터입니다. 전문 디자이너 관점에서 진단해주세요.
+
+${buildAIContext()}
+
+다음 JSON 형식으로만 답하세요:
+{
+  "score": 0~100,
+  "scoreLabel": "점수 한줄 평가 (한국어)",
+  "items": [
+    {
+      "type": "warning|error|success|info",
+      "title": "항목 제목 (한국어, 짧게)",
+      "detail": "구체적 설명 (한국어, 1-2문장)"
+    }
+  ],
+  "priorities": ["가장 시급한 개선사항 1", "개선사항 2", "개선사항 3"],
+  "positives": ["잘된 점 1", "잘된 점 2"]
+}`;
+
+  try {
+    const raw = await callOpenAI(
+      [{ role: 'user', content: prompt }],
+      () => {},
+      { json: true }
+    );
+    const result = JSON.parse(raw);
+    aiState.reportResult = result;
+    body.innerHTML = renderReportResult(result);
+  } catch (err) {
+    body.innerHTML = `<div style="color:var(--red);font-size:12px">오류: ${esc(err.message)}</div>`;
+  }
+}
+
+function renderReportResult(result) {
+  if (!result) return '';
+
+  const scoreColor = result.score >= 80 ? 'var(--green)' : result.score >= 55 ? 'var(--yellow)' : 'var(--red)';
+  const ICONS = { warning:'⚠', error:'🔴', success:'✅', info:'ℹ' };
+
+  const items = (result.items || []).map(item => `
+    <div class="ai-report-item">
+      <span class="ai-report-icon">${ICONS[item.type]||'•'}</span>
+      <div class="ai-report-text"><strong>${esc(item.title)}</strong><br>${esc(item.detail)}</div>
+    </div>`).join('');
+
+  const priorities = (result.priorities||[]).length ? `
+    <div style="margin-top:12px">
+      <div style="font-size:11px;font-weight:600;color:var(--text-1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">개선 우선순위</div>
+      ${result.priorities.map((p,i) => `
+        <div style="display:flex;gap:8px;padding:5px 0;font-size:12px;color:var(--text-1)">
+          <span style="color:var(--accent);font-weight:700;min-width:16px">${i+1}.</span>${esc(p)}
+        </div>`).join('')}
+    </div>` : '';
+
+  const positives = (result.positives||[]).length ? `
+    <div style="margin-top:10px">
+      <div style="font-size:11px;font-weight:600;color:var(--text-1);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">잘된 점</div>
+      ${result.positives.map(p => `
+        <div style="display:flex;gap:8px;padding:4px 0;font-size:12px;color:var(--green)">
+          <span>✓</span>${esc(p)}
+        </div>`).join('')}
+    </div>` : '';
+
+  return `
+    <div class="ai-score-wrap">
+      <div class="ai-score-circle" style="border-color:${scoreColor};color:${scoreColor}">${result.score}</div>
+      <div class="ai-score-label">
+        <strong style="font-size:13px">${esc(result.scoreLabel || '')}</strong><br>
+        <span style="color:var(--text-2);font-size:11px">디자인 일관성 점수 / 100</span>
+      </div>
+    </div>
+    <div>${items}</div>
+    ${priorities}${positives}`;
+}
+
+// ── 개선안 3: Chat ────────────────────────────────────────────────────
+function renderChatLog() {
+  if (!aiState.chatHistory.length) {
+    return `<div style="text-align:center;color:var(--text-2);font-size:12px;padding-top:20px">
+      질문 예시: "이 사이트의 색상 무드는?" · "Primary 버튼 스타일 설명해줘" · "Figma 구성 추천해줘"
+    </div>`;
+  }
+  return aiState.chatHistory.map(m => `
+    <div class="chat-msg ${m.role === 'user' ? 'user' : 'ai'}">
+      <div class="chat-avatar">${m.role === 'user' ? '👤' : '✦'}</div>
+      <div class="chat-bubble">${esc(m.content)}</div>
+    </div>`).join('');
+}
+
+function scrollChatToBottom() {
+  const log = el('ai-chat-log');
+  if (log) log.scrollTop = log.scrollHeight;
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
+}
+
+async function sendChatMessage() {
+  const input = el('ai-chat-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  aiState.chatHistory.push({ role: 'user', content: text });
+
+  // Render user message immediately
+  const log = el('ai-chat-log');
+  if (log) {
+    log.innerHTML = renderChatLog();
+    // Add streaming placeholder
+    const placeholder = document.createElement('div');
+    placeholder.className = 'chat-msg ai';
+    placeholder.innerHTML = `<div class="chat-avatar">✦</div><div class="chat-bubble ai-cursor" id="ai-stream-bubble"></div>`;
+    log.appendChild(placeholder);
+    scrollChatToBottom();
+  }
+
+  const systemMsg = {
+    role: 'system',
+    content: `당신은 친절한 디자인 시스템 전문가 어시스턴트입니다. 간결하고 실용적으로 답하세요.\n\n${buildAIContext()}`,
+  };
+
+  const messages = [
+    systemMsg,
+    ...aiState.chatHistory.map(m => ({ role: m.role, content: m.content })),
+  ];
+
+  try {
+    const streamBubble = el('ai-stream-bubble');
+    const fullText = await callOpenAI(messages, (partial) => {
+      if (streamBubble) streamBubble.textContent = partial;
+      scrollChatToBottom();
+    });
+
+    aiState.chatHistory.push({ role: 'assistant', content: fullText });
+    if (log) { log.innerHTML = renderChatLog(); scrollChatToBottom(); }
+  } catch (err) {
+    aiState.chatHistory.push({ role: 'assistant', content: `오류: ${err.message}` });
+    if (log) { log.innerHTML = renderChatLog(); scrollChatToBottom(); }
+  }
+}
 </script>
 </body>
 </html>
