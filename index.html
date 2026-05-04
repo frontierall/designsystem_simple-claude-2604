@@ -686,7 +686,7 @@ async function runAnalysis() {
   if (!html) { toast('HTML을 먼저 붙여넣어 주세요'); return; }
 
   document.getElementById('results').innerHTML =
-    '<div class="loading"><div class="spinner"></div>분석 중...</div>';
+    '<div class="loading"><div class="spinner"></div>분석 중… (외부 CSS 로드 중)</div>';
 
   try {
     D = await extract(html, baseUrl);
@@ -762,16 +762,19 @@ async function extract(html, baseUrl) {
   // Fetch external stylesheets with @import resolution
   let fetchedSheets = 0;
   const resolvedBase = baseUrl ? safeUrl(baseUrl) : null;
-  if (resolvedBase) {
+  {
     const visited = new Set();
     const links = [...doc.querySelectorAll('link[rel~="stylesheet"][href]')];
-    const results = await Promise.allSettled(links.map(async link => {
-      const href = resolveHref(link.getAttribute('href'), resolvedBase);
+    await Promise.allSettled(links.map(async link => {
+      const raw = link.getAttribute('href');
+      // Resolve href: use base URL if available, otherwise accept already-absolute URLs
+      const href = resolvedBase
+        ? resolveHref(raw, resolvedBase)
+        : (raw && /^https?:\/\//i.test(raw) ? raw : null);
       if (!href) return;
       const css = await fetchCSS(href, visited);
       if (css) { parseCSS(css, d); fetchedSheets++; }
     }));
-    fetchedSheets = results.filter(r => r.status === 'fulfilled').length;
   }
 
   // font-family strings from CSS → merge into fonts map
@@ -798,19 +801,29 @@ async function extract(html, baseUrl) {
 async function fetchCSS(url, visited = new Set(), depth = 0) {
   if (depth > 3 || visited.has(url)) return '';
   visited.add(url);
+  let css = '';
+  // Direct fetch first
   try {
     const res = await fetch(url, { mode: 'cors' });
-    if (!res.ok) return '';
-    const css = await res.text();
-    const base = safeUrl(url);
-    const importPromises = [];
-    reAll(/@import\s+(?:url\()?['"]?([^'");\s]+)['"]?\)?/g, css, m => {
-      const importUrl = base ? resolveHref(m[1], base) : null;
-      if (importUrl) importPromises.push(fetchCSS(importUrl, visited, depth + 1));
-    });
-    const imported = await Promise.all(importPromises);
-    return imported.join('\n') + '\n' + css;
-  } catch { return ''; }
+    if (res.ok) css = await res.text();
+  } catch { /* CORS blocked */ }
+  // CORS proxy fallback (allorigins.win)
+  if (!css) {
+    try {
+      const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+      const res = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+      if (res.ok) { const j = await res.json(); css = j.contents || ''; }
+    } catch { return ''; }
+  }
+  if (!css) return '';
+  const base = safeUrl(url);
+  const importPromises = [];
+  reAll(/@import\s+(?:url\()?['"]?([^'");\s]+)['"]?\)?/g, css, m => {
+    const importUrl = base ? resolveHref(m[1], base) : null;
+    if (importUrl) importPromises.push(fetchCSS(importUrl, visited, depth + 1));
+  });
+  const imported = await Promise.all(importPromises);
+  return imported.join('\n') + '\n' + css;
 }
 
 // ── CSS parser ────────────────────────────────────────────────────────
