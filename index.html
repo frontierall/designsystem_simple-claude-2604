@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System Extractor</title>
+  <style>
+    :root {
+      --bg-0: #0d0f18;
+      --bg-1: #13151f;
+      --bg-2: #1c1f2e;
+      --bg-3: #252839;
+      --border: #2c3047;
+      --text-0: #eaecf4;
+      --text-1: #9499b5;
+      --text-2: #5c6080;
+      --accent: #6b8eff;
+      --accent-dim: rgba(107,142,255,.12);
+      --green: #4ade80;
+      --yellow: #fbbf24;
+      --r: 7px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg-0);
+      color: var(--text-0);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      height: 52px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-1);
+      flex-shrink: 0;
+    }
+    .header-logo {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, #6b8eff, #a78bfa);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: white;
+    }
+    .header h1 { font-size: 15px; font-weight: 600; }
+    .header-badge {
+      font-size: 10px; padding: 2px 7px;
+      background: var(--bg-3); color: var(--text-1);
+      border-radius: 10px; border: 1px solid var(--border);
+    }
+    .header-spacer { flex: 1; }
+    .header-hint { font-size: 11px; color: var(--text-2); }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .layout {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Left Panel ─────────────────────────────────────────── */
+    .left {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .left-top {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-1);
+    }
+    .left-top-title {
+      font-size: 11px; font-weight: 600;
+      color: var(--text-1); text-transform: uppercase;
+      letter-spacing: .07em; margin-bottom: 10px;
+    }
+    .steps {
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .step {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; color: var(--text-1); line-height: 1.5;
+    }
+    .step-num {
+      width: 18px; height: 18px; min-width: 18px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 50%; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); margin-top: 1px;
+    }
+    .step code {
+      background: var(--bg-3); padding: 1px 5px;
+      border-radius: 3px; font-family: monospace;
+      font-size: 10.5px; color: var(--accent);
+    }
+
+    textarea {
+      flex: 1;
+      background: var(--bg-0);
+      color: var(--text-0);
+      border: none; outline: none; resize: none;
+      padding: 14px 16px;
+      font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+      font-size: 11.5px;
+      line-height: 1.6;
+    }
+    textarea::placeholder { color: var(--text-2); }
+
+    .left-actions {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-1);
+      display: flex; gap: 8px;
+    }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn {
+      padding: 7px 14px; border-radius: var(--r);
+      border: none; cursor: pointer;
+      font-size: 12.5px; font-weight: 500;
+      transition: background .12s, color .12s;
+    }
+    .btn-primary {
+      flex: 1;
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: #8aaaff; }
+    .btn-primary:active { background: #5a7ee8; }
+    .btn-ghost {
+      background: var(--bg-3); color: var(--text-1);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text-0); background: var(--border); }
+
+    /* ── Right Panel ────────────────────────────────────────── */
+    .right {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Stats bar ──────────────────────────────────────────── */
+    .stats-bar {
+      display: none;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-1);
+      flex-shrink: 0;
+    }
+    .stat-item {
+      padding: 8px 16px;
+      border-right: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .stat-item strong { color: var(--accent); margin-right: 4px; font-size: 14px; }
+    .stat-item span { color: var(--text-1); }
+
+    /* ── Tabs ───────────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-1);
+      padding: 0 16px;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .tabs::-webkit-scrollbar { height: 0; }
+    .tab {
+      padding: 11px 14px;
+      font-size: 12.5px; color: var(--text-1);
+      cursor: pointer; white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .12s, border-color .12s;
+      user-select: none;
+    }
+    .tab:hover { color: var(--text-0); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab .cnt {
+      display: inline-block;
+      background: var(--bg-3); border-radius: 8px;
+      font-size: 10px; padding: 1px 5px;
+      margin-left: 4px; color: var(--text-2);
+    }
+    .tab.active .cnt { background: var(--accent-dim); color: var(--accent); }
+
+    /* ── Results area ───────────────────────────────────────── */
+    .results {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px 24px;
+    }
+
+    /* ── Empty state ────────────────────────────────────────── */
+    .empty {
+      height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; color: var(--text-2); text-align: center;
+    }
+    .empty-icon {
+      width: 56px; height: 56px; opacity: .25;
+    }
+    .empty p { font-size: 14px; line-height: 1.6; }
+    .empty p strong { color: var(--text-1); }
+    .empty small { font-size: 12px; opacity: .7; }
+
+    /* ── Section ────────────────────────────────────────────── */
+    .sec { margin-bottom: 30px; }
+    .sec-title {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: var(--text-1); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge {
+      font-size: 10px; padding: 1px 6px;
+      background: var(--bg-3); color: var(--text-2);
+      border-radius: 8px; font-weight: 500; text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ── Color Grid ─────────────────────────────────────────── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+      gap: 8px;
+    }
+    .swatch {
+      border-radius: var(--r); overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer; transition: transform .1s;
+    }
+    .swatch:hover { transform: scale(1.03); }
+    .swatch-color { height: 52px; }
+    .swatch-label {
+      padding: 5px 7px;
+      background: var(--bg-2);
+    }
+    .swatch-label span {
+      display: block; font-family: monospace;
+      font-size: 10px; color: var(--text-1);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .swatch-label small {
+      font-size: 9.5px; color: var(--text-2);
+    }
+
+    /* ── Font items ─────────────────────────────────────────── */
+    .font-card {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 14px 16px; margin-bottom: 8px;
+    }
+    .font-meta { font-size: 11px; color: var(--text-2); font-family: monospace; margin-bottom: 8px; }
+    .font-sample { font-size: 26px; line-height: 1.2; color: var(--text-0); }
+
+    /* ── Type scale ─────────────────────────────────────────── */
+    .type-row {
+      display: flex; align-items: baseline; gap: 16px;
+      padding: 8px 12px;
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); margin-bottom: 4px;
+    }
+    .type-label {
+      font-family: monospace; font-size: 10.5px;
+      color: var(--text-2); min-width: 56px;
+    }
+    .type-preview {
+      overflow: hidden; white-space: nowrap;
+      text-overflow: ellipsis; max-width: 400px;
+      line-height: 1.2;
+    }
+
+    /* ── Spacing ────────────────────────────────────────────── */
+    .spacing-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 6px;
+    }
+    .spacing-label {
+      font-family: monospace; font-size: 10.5px;
+      color: var(--text-2); min-width: 56px;
+    }
+    .spacing-bar {
+      height: 14px; background: var(--accent);
+      opacity: .65; border-radius: 3px; min-width: 4px;
+    }
+    .spacing-px {
+      font-size: 10.5px; color: var(--text-2);
+    }
+
+    /* ── Radius ─────────────────────────────────────────────── */
+    .radius-grid {
+      display: flex; flex-wrap: wrap; gap: 12px;
+    }
+    .radius-item {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+    }
+    .radius-box {
+      width: 52px; height: 52px;
+      background: var(--accent); opacity: .7;
+    }
+    .radius-val {
+      font-family: monospace; font-size: 10px; color: var(--text-2);
+    }
+
+    /* ── CSS Variables table ────────────────────────────────── */
+    .search {
+      width: 100%; padding: 8px 12px;
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text-0);
+      font-size: 12px; outline: none; margin-bottom: 10px;
+    }
+    .search:focus { border-color: var(--accent); }
+    .search::placeholder { color: var(--text-2); }
+
+    .var-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+    .var-table tr { border-bottom: 1px solid var(--border); }
+    .var-table tr:last-child { border-bottom: none; }
+    .var-table td { padding: 7px 10px; vertical-align: middle; }
+    .var-table td:first-child {
+      font-family: monospace; color: var(--accent);
+      width: 48%; word-break: break-all;
+    }
+    .var-table td:last-child {
+      font-family: monospace; color: var(--text-1);
+      word-break: break-all;
+    }
+    .dot {
+      width: 13px; height: 13px; border-radius: 50%;
+      display: inline-block; margin-right: 7px;
+      vertical-align: middle;
+      border: 1px solid rgba(255,255,255,.15);
+    }
+
+    /* ── Shadow items ───────────────────────────────────────── */
+    .shadow-card {
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px; margin-bottom: 8px;
+    }
+    .shadow-preview {
+      width: 80px; height: 36px;
+      background: var(--bg-3); border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .shadow-val {
+      font-family: monospace; font-size: 10.5px;
+      color: var(--text-1); word-break: break-all; line-height: 1.5;
+    }
+
+    /* ── Borders ────────────────────────────────────────────── */
+    .border-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+    }
+    .border-row:last-child { border-bottom: none; }
+    .border-sample {
+      width: 72px; height: 22px;
+      background: var(--bg-3); border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .border-val {
+      font-family: monospace; font-size: 10.5px; color: var(--text-1);
+    }
+
+    /* ── Component list ─────────────────────────────────────── */
+    .cls-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      background: var(--bg-1); border: 1px solid var(--border);
+      border-radius: var(--r); margin-bottom: 4px;
+      font-size: 12px; position: relative; overflow: hidden;
+    }
+    .cls-bg {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: var(--accent-dim);
+    }
+    .cls-name { font-family: monospace; color: var(--text-0); position: relative; }
+    .cls-cnt {
+      font-size: 10px; color: var(--text-2);
+      background: var(--bg-3); padding: 2px 7px;
+      border-radius: 8px; position: relative; flex-shrink: 0;
+    }
+
+    /* ── Export bar ─────────────────────────────────────────── */
+    .export-bar {
+      display: none;
+      gap: 8px;
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-1);
+      flex-shrink: 0;
+    }
+
+    /* ── Toast ──────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--bg-3); border: 1px solid var(--border);
+      color: var(--text-0); padding: 9px 15px;
+      border-radius: var(--r); font-size: 12.5px;
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .18s, transform .18s;
+      pointer-events: none; z-index: 999;
+      max-width: 300px;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Scrollbar ──────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── Loading ────────────────────────────────────────────── */
+    .loading {
+      height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; color: var(--text-1); font-size: 13px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────── -->
+<header class="header">
+  <div class="header-logo">D</div>
+  <h1>Design System Extractor</h1>
+  <span class="header-badge">Plan C · DevTools HTML</span>
+  <div class="header-spacer"></div>
+  <span class="header-hint">Ctrl + Enter 로 분석</span>
+</header>
+
+<!-- ── Main Layout ─────────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- Left: Input -->
+  <div class="left">
+    <div class="left-top">
+      <div class="left-top-title">HTML 입력</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          분석할 사이트를 브라우저에서 열기
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <code>F12</code> → Elements 탭 클릭
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <code>&lt;html&gt;</code> 우클릭 → <code>Copy outerHTML</code>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          아래 영역에 붙여넣기 후 분석 시작
+        </div>
+      </div>
+    </div>
+
+    <textarea
+      id="input"
+      placeholder="<!-- HTML을 여기에 붙여넣으세요 -->&#10;&#10;DevTools > Elements > <html> 우클릭 > Copy outerHTML&#10;&#10;또는 Ctrl+A 로 전체 선택 후 복사"
+      spellcheck="false"
+    ></textarea>
+
+    <div class="left-actions">
+      <button class="btn btn-ghost" onclick="clearAll()">지우기</button>
+      <button class="btn btn-primary" onclick="runAnalysis()">분석 시작 →</button>
+    </div>
+  </div>
+
+  <!-- Right: Results -->
+  <div class="right">
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- Tabs -->
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="colors">색상 <span class="cnt" id="cnt-colors">0</span></div>
+      <div class="tab" data-tab="typography">타이포그래피</div>
+      <div class="tab" data-tab="spacing">간격</div>
+      <div class="tab" data-tab="variables">CSS 변수 <span class="cnt" id="cnt-vars">0</span></div>
+      <div class="tab" data-tab="effects">그림자·테두리</div>
+      <div class="tab" data-tab="components">컴포넌트 <span class="cnt" id="cnt-cls">0</span></div>
+    </div>
+
+    <!-- Results content -->
+    <div class="results" id="results">
+      <div class="empty">
+        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 9h6M9 12h6M9 15h4"/>
+          <circle cx="19" cy="19" r="4" fill="var(--bg-0)" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M17.5 19h3M19 17.5v3" stroke="var(--accent)"/>
+        </svg>
+        <p><strong>HTML을 붙여넣고</strong><br>분석 시작을 클릭하세요</p>
+        <small>색상 · 폰트 · 간격 · CSS 변수를 자동 추출합니다</small>
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div class="export-bar" id="exportBar">
+      <button class="btn btn-ghost" onclick="exportCSS()">CSS 내보내기</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">JSON 토큰</button>
+      <button class="btn btn-ghost" onclick="copyAll()">전체 복사</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ── State ─────────────────────────────────────────────────────────────
+let D = null; // analysis result
+let currentTab = 'colors';
+
+// ── Tab clicks ────────────────────────────────────────────────────────
+document.getElementById('tabs').addEventListener('click', e => {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  if (!D) { toast('먼저 HTML을 분석해주세요'); return; }
+  switchTab(tab.dataset.tab);
+});
+
+function switchTab(name) {
+  currentTab = name;
+  document.querySelectorAll('.tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.tab === name)
+  );
+  renderTab(name);
+}
+
+// ── Entry point ───────────────────────────────────────────────────────
+function runAnalysis() {
+  const html = document.getElementById('input').value.trim();
+  if (!html) { toast('HTML을 먼저 붙여넣어 주세요'); return; }
+
+  document.getElementById('results').innerHTML = '<div class="loading"><div class="spinner"></div>분석 중...</div>';
+
+  // Defer so browser can paint the loading state
+  setTimeout(() => {
+    try {
+      D = extract(html);
+      updateCountBadges();
+      updateStatsBar();
+      switchTab('colors');
+      document.getElementById('exportBar').style.display = 'flex';
+      document.getElementById('statsBar').style.display = 'flex';
+      toast('분석 완료!');
+    } catch (err) {
+      document.getElementById('results').innerHTML = `<div class="empty"><p style="color:#f87171">오류: ${err.message}</p></div>`;
+    }
+  }, 50);
+}
+
+// ── Extractor ─────────────────────────────────────────────────────────
+function extract(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  const d = {
+    cssVars: {},
+    rawColors: [],
+    fonts: new Set(),
+    fontSizes: new Set(),
+    fontWeights: new Set(),
+    lineHeights: new Set(),
+    spacing: new Set(),
+    borderRadius: new Set(),
+    shadows: new Set(),
+    borders: new Set(),
+    transitions: new Set(),
+    classes: {},
+  };
+
+  // Style tags
+  doc.querySelectorAll('style').forEach(s => parseCSS(s.textContent, d));
+
+  // Inline styles
+  doc.querySelectorAll('[style]').forEach(el => parseCSS(el.getAttribute('style'), d, true));
+
+  // Class frequency
+  doc.querySelectorAll('[class]').forEach(el => {
+    el.classList.forEach(cls => {
+      if (cls) d.classes[cls] = (d.classes[cls] || 0) + 1;
+    });
+  });
+
+  // Post-process
+  return {
+    cssVars: d.cssVars,
+    colors: dedupeColors(d.rawColors),
+    fonts: [...d.fonts].filter(f => f.length > 1 && f.length < 80),
+    fontSizes: sortNum([...d.fontSizes]),
+    fontWeights: [...d.fontWeights].sort(),
+    lineHeights: [...d.lineHeights].sort(),
+    spacing: sortNum([...d.spacing]),
+    borderRadius: sortNum([...d.borderRadius]),
+    shadows: [...new Set([...d.shadows])],
+    borders: [...new Set([...d.borders])].slice(0, 24),
+    transitions: [...new Set([...d.transitions])].slice(0, 15),
+    classes: d.classes,
+  };
+}
+
+function parseCSS(css, d, inline = false) {
+  if (!css) return;
+
+  // CSS custom properties
+  reAll(/--([\w-]+)\s*:\s*([^;}\n]+)/g, css, m => {
+    const val = m[2].replace(/\/\*.*?\*\//g, '').trim();
+    if (val) d.cssVars[`--${m[1]}`] = val;
+  });
+
+  // Colors
+  reAll(/(#[0-9a-fA-F]{3,8}(?![0-9a-fA-F])|rgba?\s*\([^)]+\)|hsla?\s*\([^)]+\))/g, css, m => {
+    const c = m[1].trim();
+    if (c !== 'inherit' && c !== 'initial') d.rawColors.push(c);
+  });
+
+  // font-family
+  reAll(/font-family\s*:\s*([^;}\n]+)/g, css, m => {
+    m[1].split(',').forEach(f => {
+      const clean = f.replace(/!important/g,'').trim().replace(/^['"]|['"]$/g,'').trim();
+      if (clean && !clean.startsWith('var(') && !clean.startsWith('-')) d.fonts.add(clean);
+    });
+  });
+
+  // font-size
+  reAll(/font-size\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v && isUnit(v)) d.fontSizes.add(v);
+  });
+
+  // font-weight
+  reAll(/font-weight\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v) d.fontWeights.add(v);
+  });
+
+  // line-height
+  reAll(/line-height\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v) d.lineHeights.add(v);
+  });
+
+  // spacing: padding / margin / gap
+  reAll(/(?:^|[\s{;])(?:padding|margin|gap)(?:-(?:top|right|bottom|left|block|inline)(?:-(?:start|end))?)?\s*:\s*([^;}\n]+)/gm, css, m => {
+    m[1].split(/\s+/).forEach(v => {
+      v = v.replace(/!important/g,'').trim();
+      if (isUnit(v)) d.spacing.add(v);
+    });
+  });
+
+  // border-radius
+  reAll(/border-radius\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]).split('/')[0].trim();
+    // handle multi-value: take unique tokens
+    v.split(/\s+/).forEach(token => {
+      if (isUnit(token)) d.borderRadius.add(token);
+    });
+  });
+
+  // box-shadow
+  reAll(/box-shadow\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v && v !== 'none') d.shadows.add(v);
+  });
+
+  // border
+  reAll(/border(?:-(?:top|right|bottom|left))?\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v && v !== 'none' && v !== '0') d.borders.add(v);
+  });
+
+  // transition
+  reAll(/transition\s*:\s*([^;}\n]+)/g, css, m => {
+    const v = sanitize(m[1]);
+    if (v && v !== 'none') d.transitions.add(v);
+  });
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────
+function reAll(re, str, cb) {
+  let m;
+  while ((m = re.exec(str)) !== null) cb(m);
+}
+
+function sanitize(v) {
+  return v.replace(/!important/g,'').replace(/\/\*.*?\*\//g,'').trim();
+}
+
+function isUnit(v) {
+  return /^\d+(\.\d+)?(px|rem|em|vh|vw|%)$/.test(v);
+}
+
+function toPx(v) {
+  const n = parseFloat(v);
+  if (v.includes('rem') || v.includes('em')) return n * 16;
+  return n;
+}
+
+function sortNum(arr) {
+  return arr.sort((a, b) => {
+    const na = parseFloat(a), nb = parseFloat(b);
+    return isNaN(na) || isNaN(nb) ? a.localeCompare(b) : na - nb;
+  });
+}
+
+// ── Color dedup ───────────────────────────────────────────────────────
+function dedupeColors(arr) {
+  const map = new Map();
+  arr.forEach(c => {
+    const key = normalizeColorKey(c);
+    if (key && !map.has(key)) map.set(key, c);
+  });
+  return [...map.values()];
+}
+
+function normalizeColorKey(color) {
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    if (a === 0) return null;
+    return `${r},${g},${b}`;
+  } catch { return null; }
+}
+
+function toHex(color) {
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    return '#' + [r, g, b].map(x => x.toString(16).padStart(2,'0')).join('');
+  } catch { return null; }
+}
+
+function isColorVal(v) {
+  return /(#[0-9a-fA-F]{3,8}|rgba?\(|hsla?\()/.test(v);
+}
+
+// ── Badge & stats ──────────────────────────────────────────────────────
+function updateCountBadges() {
+  el('cnt-colors').textContent = D.colors.length;
+  el('cnt-vars').textContent   = Object.keys(D.cssVars).length;
+  el('cnt-cls').textContent    = Object.keys(D.classes).length;
+}
+
+function updateStatsBar() {
+  const sb = el('statsBar');
+  sb.style.display = 'flex';
+  const items = [
+    [D.colors.length, '색상'],
+    [D.fonts.length, '폰트'],
+    [D.fontSizes.length, '크기'],
+    [D.spacing.length, '간격'],
+    [Object.keys(D.cssVars).length, 'CSS 변수'],
+    [D.shadows.length, '그림자'],
+    [Object.keys(D.classes).length, '클래스'],
+  ];
+  sb.innerHTML = items.map(([n, label]) =>
+    `<div class="stat-item"><strong>${n}</strong><span>${label}</span></div>`
+  ).join('');
+}
+
+// ── Render tabs ───────────────────────────────────────────────────────
+function renderTab(name) {
+  const r = el('results');
+  switch (name) {
+    case 'colors':     r.innerHTML = renderColors();     break;
+    case 'typography': r.innerHTML = renderTypography(); break;
+    case 'spacing':    r.innerHTML = renderSpacing();    break;
+    case 'variables':  r.innerHTML = renderVariables();  break;
+    case 'effects':    r.innerHTML = renderEffects();    break;
+    case 'components': r.innerHTML = renderComponents(); break;
+  }
+
+  // Attach search
+  const s = r.querySelector('.search');
+  if (s) s.addEventListener('input', () => {
+    if (name === 'variables')  filterTable('varTbody', s.value);
+    if (name === 'components') filterList('clsList', s.value);
+  });
+}
+
+// ── Colors ────────────────────────────────────────────────────────────
+function renderColors() {
+  if (!D.colors.length && !Object.keys(D.cssVars).some(k => isColorVal(D.cssVars[k]))) {
+    return noData('추출된 색상이 없습니다');
+  }
+
+  const swatches = D.colors.map(c => {
+    const hex = toHex(c) || c;
+    return swatch(c, hex, '');
+  }).join('');
+
+  const varSwatches = Object.entries(D.cssVars)
+    .filter(([, v]) => isColorVal(v))
+    .map(([k, v]) => swatch(v, k, toHex(v) || ''))
+    .join('');
+
+  return `
+    ${D.colors.length ? `
+    <div class="sec">
+      <div class="sec-title">색상 팔레트 <span class="badge">${D.colors.length}</span></div>
+      <div class="color-grid">${swatches}</div>
+    </div>` : ''}
+    ${varSwatches ? `
+    <div class="sec">
+      <div class="sec-title">변수 색상</div>
+      <div class="color-grid">${varSwatches}</div>
+    </div>` : ''}`;
+}
+
+function swatch(bg, label, sub) {
+  const copyVal = toHex(bg) || bg;
+  return `
+    <div class="swatch" onclick="copy('${esc(copyVal)}')" title="클릭하여 복사">
+      <div class="swatch-color" style="background:${esc(bg)}"></div>
+      <div class="swatch-label">
+        <span>${esc(label)}</span>
+        ${sub ? `<small>${esc(sub)}</small>` : ''}
+      </div>
+    </div>`;
+}
+
+// ── Typography ────────────────────────────────────────────────────────
+function renderTypography() {
+  const fontSection = D.fonts.length ? `
+    <div class="sec">
+      <div class="sec-title">폰트 패밀리 <span class="badge">${D.fonts.length}</span></div>
+      ${D.fonts.map(f => `
+        <div class="font-card">
+          <div class="font-meta">${esc(f)}</div>
+          <div class="font-sample" style="font-family:${esc(f)}">Aa 가나다 123</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  const sizeSection = D.fontSizes.length ? `
+    <div class="sec">
+      <div class="sec-title">폰트 크기 <span class="badge">${D.fontSizes.length}</span></div>
+      ${D.fontSizes.map(s => `
+        <div class="type-row">
+          <span class="type-label">${esc(s)}</span>
+          <span class="type-preview" style="font-size:${esc(s)}">The quick brown fox 빠른 갈색 여우</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  const wSection = D.fontWeights.length ? `
+    <div class="sec">
+      <div class="sec-title">굵기 <span class="badge">${D.fontWeights.length}</span></div>
+      ${D.fontWeights.map(w => `
+        <div class="type-row">
+          <span class="type-label">${esc(w)}</span>
+          <span class="type-preview" style="font-weight:${esc(w)};font-size:20px">Design System 디자인</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  const lhSection = D.lineHeights.length ? `
+    <div class="sec">
+      <div class="sec-title">Line Height <span class="badge">${D.lineHeights.length}</span></div>
+      ${D.lineHeights.map(l => `
+        <div class="type-row">
+          <span class="type-label">${esc(l)}</span>
+          <span style="font-size:12px;line-height:${esc(l)};color:var(--text-1)">텍스트<br>두 번째 줄</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  return fontSection + sizeSection + wSection + lhSection || noData('타이포그래피 정보가 없습니다');
+}
+
+// ── Spacing ───────────────────────────────────────────────────────────
+function renderSpacing() {
+  const spacingSection = (() => {
+    if (!D.spacing.length) return '';
+    const maxPx = D.spacing.reduce((m, s) => Math.max(m, toPx(s)), 1);
+    return `
+      <div class="sec">
+        <div class="sec-title">간격 스케일 <span class="badge">${D.spacing.length}</span></div>
+        ${D.spacing.map(s => {
+          const px = toPx(s);
+          const w = Math.min(Math.max((px / maxPx) * 260, 4), 260);
+          return `
+            <div class="spacing-row">
+              <span class="spacing-label">${esc(s)}</span>
+              <div class="spacing-bar" style="width:${w}px"></div>
+              <span class="spacing-px">${px}px</span>
+            </div>`;
+        }).join('')}
+      </div>`;
+  })();
+
+  const radiusSection = (() => {
+    if (!D.borderRadius.length) return '';
+    return `
+      <div class="sec">
+        <div class="sec-title">Border Radius <span class="badge">${D.borderRadius.length}</span></div>
+        <div class="radius-grid">
+          ${D.borderRadius.map(r => `
+            <div class="radius-item">
+              <div class="radius-box" style="border-radius:${esc(r)}"></div>
+              <span class="radius-val">${esc(r)}</span>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  })();
+
+  return spacingSection + radiusSection || noData('간격 정보가 없습니다');
+}
+
+// ── Variables ─────────────────────────────────────────────────────────
+function renderVariables() {
+  const entries = Object.entries(D.cssVars);
+  if (!entries.length) return noData('CSS 커스텀 프로퍼티가 없습니다');
+
+  const rows = entries.map(([k, v]) => {
+    const color = isColorVal(v) ? `<span class="dot" style="background:${esc(v)}"></span>` : '';
+    return `<tr data-q="${(k + ' ' + v).toLowerCase()}">
+      <td>${esc(k)}</td>
+      <td>${color}${esc(v)}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="sec">
+      <div class="sec-title">커스텀 프로퍼티 <span class="badge">${entries.length}</span></div>
+      <input class="search" placeholder="변수 이름 / 값 검색..." type="text">
+      <table class="var-table">
+        <tbody id="varTbody">${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── Effects ───────────────────────────────────────────────────────────
+function renderEffects() {
+  const shadows = D.shadows.length ? `
+    <div class="sec">
+      <div class="sec-title">Box Shadow <span class="badge">${D.shadows.length}</span></div>
+      ${D.shadows.map(s => `
+        <div class="shadow-card">
+          <div class="shadow-preview" style="box-shadow:${esc(s)}"></div>
+          <div class="shadow-val">${esc(s)}</div>
+        </div>`).join('')}
+    </div>` : '';
+
+  const borders = D.borders.length ? `
+    <div class="sec">
+      <div class="sec-title">Border <span class="badge">${D.borders.length}</span></div>
+      ${D.borders.map(b => `
+        <div class="border-row">
+          <div class="border-sample" style="border:${esc(b)}"></div>
+          <span class="border-val">${esc(b)}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  const transitions = D.transitions.length ? `
+    <div class="sec">
+      <div class="sec-title">Transition <span class="badge">${D.transitions.length}</span></div>
+      ${D.transitions.map(t => `
+        <div style="padding:7px 10px; background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r); margin-bottom:4px; font-family:monospace; font-size:10.5px; color:var(--text-1)">${esc(t)}</div>
+      `).join('')}
+    </div>` : '';
+
+  return shadows + borders + transitions || noData('그림자/테두리 정보가 없습니다');
+}
+
+// ── Components ────────────────────────────────────────────────────────
+function renderComponents() {
+  const sorted = Object.entries(D.classes)
+    .filter(([k]) => k.length > 1)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 120);
+
+  if (!sorted.length) return noData('클래스 정보가 없습니다');
+
+  const maxN = sorted[0][1];
+  const items = sorted.map(([cls, n]) => `
+    <div class="cls-row" data-q="${cls.toLowerCase()}">
+      <div class="cls-bg" style="width:${(n/maxN*100).toFixed(1)}%"></div>
+      <span class="cls-name">.${esc(cls)}</span>
+      <span class="cls-cnt">${n}</span>
+    </div>`).join('');
+
+  return `
+    <div class="sec">
+      <div class="sec-title">클래스 빈도 <span class="badge">${sorted.length}</span></div>
+      <input class="search" placeholder="클래스 검색..." type="text">
+      <div id="clsList">${items}</div>
+    </div>`;
+}
+
+// ── Filter helpers ────────────────────────────────────────────────────
+function filterTable(tbodyId, q) {
+  q = q.toLowerCase();
+  document.querySelectorAll(`#${tbodyId} tr`).forEach(tr => {
+    tr.style.display = tr.dataset.q.includes(q) ? '' : 'none';
+  });
+}
+
+function filterList(listId, q) {
+  q = q.toLowerCase();
+  document.querySelectorAll(`#${listId} [data-q]`).forEach(row => {
+    row.style.display = row.dataset.q.includes(q) ? '' : 'none';
+  });
+}
+
+// ── Export ────────────────────────────────────────────────────────────
+function exportCSS() {
+  if (!D) return;
+  let out = '/* Design System — extracted by Design System Extractor */\n\n:root {\n';
+
+  if (Object.keys(D.cssVars).length) {
+    out += '  /* ── Custom Properties ── */\n';
+    Object.entries(D.cssVars).forEach(([k, v]) => { out += `  ${k}: ${v};\n`; });
+    out += '\n';
+  }
+
+  const colorsNotInVars = D.colors.filter(c =>
+    !Object.values(D.cssVars).some(v => v === c || toHex(v) === toHex(c))
+  );
+  if (colorsNotInVars.length) {
+    out += '  /* ── Extracted Colors ── */\n';
+    colorsNotInVars.forEach((c, i) => {
+      out += `  --color-${i + 1}: ${toHex(c) || c};\n`;
+    });
+    out += '\n';
+  }
+
+  if (D.spacing.length) {
+    out += '  /* ── Spacing Scale ── */\n';
+    D.spacing.forEach((s, i) => { out += `  --space-${i + 1}: ${s};\n`; });
+    out += '\n';
+  }
+
+  if (D.borderRadius.length) {
+    out += '  /* ── Border Radius ── */\n';
+    D.borderRadius.forEach((r, i) => { out += `  --radius-${i + 1}: ${r};\n`; });
+    out += '\n';
+  }
+
+  out += '}\n';
+  download('design-system.css', out, 'text/css');
+}
+
+function exportJSON() {
+  if (!D) return;
+  const tokens = {
+    color: {},
+    typography: {
+      fontFamily: D.fonts,
+      fontSize: D.fontSizes,
+      fontWeight: D.fontWeights,
+      lineHeight: D.lineHeights,
+    },
+    spacing: Object.fromEntries(D.spacing.map((v, i) => [`space-${i+1}`, { value: v }])),
+    borderRadius: Object.fromEntries(D.borderRadius.map((v, i) => [`radius-${i+1}`, { value: v }])),
+    shadow: Object.fromEntries(D.shadows.map((v, i) => [`shadow-${i+1}`, { value: v }])),
+    cssVariables: D.cssVars,
+  };
+
+  D.colors.forEach((c, i) => {
+    tokens.color[`color-${i+1}`] = { value: toHex(c) || c, raw: c };
+  });
+
+  download('design-tokens.json', JSON.stringify(tokens, null, 2), 'application/json');
+}
+
+function copyAll() {
+  if (!D) return;
+  const lines = [
+    '=== Design System Tokens ===',
+    '',
+    `Colors (${D.colors.length}): ${D.colors.map(c => toHex(c)||c).join(', ')}`,
+    '',
+    `Fonts (${D.fonts.length}): ${D.fonts.join(', ')}`,
+    '',
+    `Font Sizes (${D.fontSizes.length}): ${D.fontSizes.join(', ')}`,
+    '',
+    `Font Weights (${D.fontWeights.length}): ${D.fontWeights.join(', ')}`,
+    '',
+    `Spacing (${D.spacing.length}): ${D.spacing.join(', ')}`,
+    '',
+    `Border Radius (${D.borderRadius.length}): ${D.borderRadius.join(', ')}`,
+    '',
+    `CSS Variables (${Object.keys(D.cssVars).length}):`,
+    ...Object.entries(D.cssVars).map(([k,v]) => `  ${k}: ${v}`),
+  ];
+  navigator.clipboard.writeText(lines.join('\n'))
+    .then(() => toast('클립보드에 복사됨!'));
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────
+function clearAll() {
+  D = null;
+  document.getElementById('input').value = '';
+  el('statsBar').style.display = 'none';
+  el('exportBar').style.display = 'none';
+  el('cnt-colors').textContent = '0';
+  el('cnt-vars').textContent   = '0';
+  el('cnt-cls').textContent    = '0';
+  el('results').innerHTML = `
+    <div class="empty">
+      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="M9 9h6M9 12h6M9 15h4"/>
+        <circle cx="19" cy="19" r="4" fill="var(--bg-0)" stroke="var(--accent)" stroke-width="1.5"/>
+        <path d="M17.5 19h3M19 17.5v3" stroke="var(--accent)"/>
+      </svg>
+      <p><strong>HTML을 붙여넣고</strong><br>분석 시작을 클릭하세요</p>
+      <small>색상 · 폰트 · 간격 · CSS 변수를 자동 추출합니다</small>
+    </div>`;
+}
+
+function download(name, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = name;
+  a.click();
+  toast(`${name} 다운로드 완료`);
+}
+
+function copy(text) {
+  navigator.clipboard.writeText(text).then(() => toast(`복사됨: ${text}`));
+}
+
+function noData(msg) {
+  return `<div style="text-align:center;padding:48px;color:var(--text-2);font-size:13px">${msg}</div>`;
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function el(id) { return document.getElementById(id); }
+
+let toastTimer;
+function toast(msg) {
+  const t = el('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// Ctrl+Enter shortcut
+document.getElementById('input').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runAnalysis();
+});
+</script>
+</body>
+</html>
